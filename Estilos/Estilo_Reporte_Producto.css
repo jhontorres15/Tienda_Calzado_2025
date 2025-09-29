@@ -1,0 +1,49 @@
+﻿.body {
+    font-family: Arial, Verdana;
+    background-color: #2F4F4F;
+    box-sizing: border-box;
+}
+
+.Formulario_Reporte_Articulo {
+    background-color: #EDF060;
+    border-radius: 10px;
+    color:darkred;
+    font-size: 12px;
+    padding: 20px;
+    margin: 10px auto;
+    width: 1200px;
+    height: 500px;
+}
+
+.Titulo_Formulario {
+    font-family: #E595;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    color: #E595;
+    width: 300px;
+    height: 40px;
+}
+.Cabecera_Etiqueta {
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #2F4F4F;
+    color: #E5DADA;
+    height: 25px;
+}
+
+.Fila_Dato {
+    font-family: Arial;
+    background-color: #E5DADA;
+    font-size: 10px;
+    height: 20px;
+}
+
+.BotonVerDetalle {
+    font-family: Arial;
+    font-size: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: yellowgreen;
+}

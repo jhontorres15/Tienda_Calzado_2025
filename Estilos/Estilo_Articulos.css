@@ -1,0 +1,120 @@
+﻿.body {
+    font-family: Arial,Verdana;
+    background-color: darkslategray;
+    box-sizing: border-box;
+}
+
+.Formulario_Articulo {
+    background-color: white;
+    border-radius: 10px;
+    color: #424242;
+    font-size: 12px;
+    padding: 20px;
+    margin: 10px auto;
+    width: 550px;
+    height: 950px;
+}
+
+
+.Tabla_Articulo {
+    text-align: center;
+    width: 544px;
+    height: 580px;
+}
+
+.input, textarea
+{
+ border: 0px;
+ outline: none;
+}
+
+.Titulo_Formulario {
+    font-family: Verdana;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: #333333;
+    height: 40px;
+}
+
+
+.Etiqueta_Articulo {
+    font-family: "Segoe UI";
+    font-size: 14px;
+    text-align: right;
+    vertical-align: middle;
+    width: 150px;
+    height: 50px;
+}
+
+.Fila {
+    text-align: left;
+    vertical-align: middle;
+    width: 370px;
+    height: 35px;
+}
+
+.Fila_Etiqueta {
+    font-family: "Segoe UI";
+    font-size: 12px;
+    font-weight: bold;
+    text-align: left;
+    height: 35px;
+}
+
+.Control_Text {
+    font-family: "Segoe UI";
+    border: solid 2px #ADADAD;
+    width: 400px;
+    height: 26px;
+}
+
+.Control_Text:focus {
+        border: solid 2px;
+        border-color: darkslategray;
+}
+
+.Control_Lista-Desplegable {
+    font-family: "Segoe UI";
+    border: solid 2px #ADADAD;
+    width: 200px;
+    height: 26px;
+}
+
+.Center-Content {
+    text-align: center;
+    height: 50px;
+}
+
+
+
+
+
+.Control-Text {
+    font-family: "Segoe UI";
+    border: solid 2px #ADADAD;
+    width: 200px;
+    height: 30px;
+}
+
+
+
+.Boton {
+    border: solid 3px #ADADAD;
+    border-radius: 20px;
+    display: inline-block;
+    text-decoration: none;
+    width: 160px;
+    height: 35px;
+    font-weight: bold;
+    color: white;
+    background-color: darkslategray;
+}
+
+.input {
+    border-radius: 20px !important;
+    border: 1px solid #c0c0c0;
+    outline: 0 !important;
+    box-sizing: border-box;
+    padding: 12px 15px;
+}
