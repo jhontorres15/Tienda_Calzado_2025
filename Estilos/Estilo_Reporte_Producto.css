@@ -5,7 +5,7 @@
 }
 
 .Formulario_Reporte_Articulo {
-    background-color: #EDF060;
+    background-color: #ffffff;
     border-radius: 10px;
     color:darkred;
     font-size: 12px;
@@ -16,11 +16,11 @@
 }
 
 .Titulo_Formulario {
-    font-family: #E595;
+    font-family: #ffffff;
     font-size: 25px;
     font-weight: bold;
     text-align: center;
-    color: #E595;
+    color: #000000;
     width: 300px;
     height: 40px;
 }

@@ -7,6 +7,10 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
+using ZXing;
+using ZXing.QrCode;
 
 public partial class Mantenimiento_Articulos : System.Web.UI.Page
 {
@@ -444,6 +448,43 @@ public partial class Mantenimiento_Articulos : System.Web.UI.Page
         Response.Redirect("Reporte_Productos.aspx");
     }
 
+
+
+protected void btnImprimirQR_Click(object sender, EventArgs e)
+{
+    string codProducto = Lb_CodProducto.Text.Trim();
+    if (string.IsNullOrEmpty(codProducto))
+    {
+        ScriptManager.RegisterStartupScript(this, GetType(), "sinCodigo", "alert('No hay código de producto para generar el QR.');", true);
+        return;
+    }
+
+    var qrWriter = new BarcodeWriter
+    {
+        Format = BarcodeFormat.QR_CODE,
+        Options = new QrCodeEncodingOptions
+        {
+            Height = 250,
+            Width = 250
+        }
+    };
+    using (Bitmap bitmap = qrWriter.Write(codProducto))
+    {
+        string carpeta = Server.MapPath("~/Codigos/");
+        if (!Directory.Exists(carpeta))
+            Directory.CreateDirectory(carpeta);
+
+        string filePath = Path.Combine(carpeta, codProducto + ".png");
+        bitmap.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
+
+        Response.Clear();
+        Response.ContentType = "image/png";
+        Response.AddHeader("Content-Disposition", "attachment; filename=" + codProducto + ".png");
+        Response.TransmitFile(filePath);
+        Response.Flush();
+        HttpContext.Current.ApplicationInstance.CompleteRequest();
+    }
+ }
 
 }
 

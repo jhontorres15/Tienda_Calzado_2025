@@ -19,8 +19,12 @@
                 <tr>
                     <td class="Titulo_Formulario">Reportes de Articulos</td>
                 </tr>
+
             </table>
                 <br />
+                                <asp:TextBox ID="txtBuscar" runat="server" Placeholder="Buscar producto por nombre o código" CssClass="txtBuscar"></asp:TextBox>
+<asp:Button ID="btnBuscar" runat="server" Text="Buscar" OnClick="btnBuscar_Click" CssClass="btnBuscar"/>
+<br /><br />
                 <asp:GridView ID="GV_Productos" runat="server" AutoGenerateColumns="False" Width="1100px">
                     <Columns>
                         <asp:ButtonField ButtonType="Button" CommandName="BTN_Ver" Text="Ver Detalle" >
@@ -78,6 +82,7 @@
                         <HeaderStyle CssClass="Cabecera_Etiqueta" />
                         <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" VerticalAlign="Middle" Width="60px" />
                         </asp:BoundField>
+
                     </Columns>
                 </asp:GridView>
                 <br /> 

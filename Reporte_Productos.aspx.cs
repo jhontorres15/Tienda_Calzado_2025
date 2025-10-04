@@ -41,4 +41,19 @@ public partial class Reporte_Productos : System.Web.UI.Page
             this.Listar_Productos();
         }
     }
+
+    protected void btnBuscar_Click(object sender, EventArgs e)
+    {
+        string filtro = txtBuscar.Text.Trim();
+
+        DataTable dt = new DataTable();
+        SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM V_Listar_Productos WHERE Producto LIKE @filtro OR CodProducto LIKE @filtro", Global.CN);
+        da.SelectCommand.Parameters.AddWithValue("@filtro", "%" + filtro + "%");
+        da.Fill(dt);
+
+        GV_Productos.DataSource = dt;
+        GV_Productos.DataBind();
+    }
+
+
 }

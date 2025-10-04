@@ -14,7 +14,9 @@
     void session_Start(object sender, EventArgs e)
         {
         //codigo que se ejecuta al iniciarse una nueva sesion
-          Session.Add("MantenimientoProductos_Tipo_Transaccion","");
+        Session.Add("MantenimientoProductos_CodProducto","");
+        Session.Add("MantenimientoProductos_Tipo_Transaccion","");
+
 
         }
 </script>

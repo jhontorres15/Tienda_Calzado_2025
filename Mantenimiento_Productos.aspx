@@ -176,7 +176,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="Etiqueta_Articulo">Genero:</td>
+                    <td class="Etiqueta_Articulo">Tipo:</td>
                     <td class="Fila">
                         <asp:DropDownList ID="DDL_Genero" runat="server" CssClass="Control_Lista-Desplegable" >
                         </asp:DropDownList>
@@ -235,11 +235,24 @@
                 </tr>
                 <tr>
                     <td class="auto-style1"></td>
-                    <td class="auto-style1"></td>
+                    <td class="auto-style1">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+    <td colspan="2" class="Center-Content">
+        <asp:Panel ID="pnlCodigoQR" runat="server" Visible="false">
+            <h3>Código QR del Producto</h3>
+            <asp:Image ID="imgCodigoQR" runat="server" />
+            <br /><br />
+        </asp:Panel>
+    </td>
+     </tr>
+                <tr>
+                   
+
+                    <td>
+            <asp:Button ID="btnImprimirQR" runat="server" Text="Imprimir QR" 
+                        OnClick="btnImprimirQR_Click" Enabled="false" CssClass="Boton" />
+                    </td>
                 </tr>
             </table>
           </center>
