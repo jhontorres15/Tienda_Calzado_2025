@@ -1,0 +1,228 @@
+﻿/* Contenedor principal con margen para menú lateral */
+.container {
+}
+
+/* Estilos para el formulario de empleados */
+.container-employee {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    width: 100%; /* que ocupe todo el ancho del contenedor padre */
+    margin-right: 0px; /* opcional para separación del borde */
+}
+
+/* Ajustes para el formulario principal */
+.row {
+    margin-right: 15px;
+    margin-left: 18em;
+}
+
+    .row.derecha1 {
+        display: flex;
+        justify-content: flex-end; /* las empuja a la derecha */
+        margin-right: 4em; /* ajusta cuánto se alejan del borde derecho */
+    }
+
+    .row.derecha {
+        display: flex;
+        justify-content: flex-end; /* las empuja a la derecha */
+        margin-right: 4em; /* ajusta cuánto se alejan del borde derecho */
+    }
+
+.title-employee {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid #3498db;
+}
+
+.form-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #34495e;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+.form-control {
+    width: 90%;
+    padding: 0.8rem;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+    .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        outline: none;
+    }
+
+    .form-control:hover {
+        border-color: #95a5a6;
+    }
+
+/* Estilos para los dropdowns */
+select.form-control {
+    cursor: pointer;
+    background-color: #fff;
+    background-image: linear-gradient(to bottom, #ffffff 0%, #f9f9f9 100%);
+}
+
+/* Estilos para el botón de archivo */
+input[type="file"].form-control {
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+}
+
+/* Estilos para el área de texto */
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Grupo de botones */
+.button-group {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+}
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+
+.btn-secondary {
+    background-color: #95a5a6;
+    color: white;
+}
+
+    .btn-secondary:hover {
+        background-color: #7f8c8d;
+    }
+
+/* Estilos para el GridView */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    border-collapse: collapse;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    background-color: #f8f9fa;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+    margin: 0 0.2rem;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container-employee {
+        margin: 1rem;
+        padding: 15px;
+    }
+
+    .title-employee {
+        font-size: 2rem;
+    }
+
+    .form-container {
+        grid-template-columns: 1fr;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+/* Validación visual */
+.form-control:invalid {
+    border-color: #e74c3c;
+}
+
+/* Efectos de hover en los campos */
+.form-group:hover label {
+    color: #3498db;
+}
+
+/* Animación de transición para los campos */
+.form-control {
+    transform-origin: left;
+    transition: transform 0.2s ease, border-color 0.3s ease;
+}
+
+    .form-control:focus {
+        transform: scale(1.02);
+    }

@@ -11,9 +11,8 @@ using System.Web.UI.WebControls;
 using ZXing;
 using ZXing.Common;
 using ZXing.QrCode;
-using static System.Net.Mime.MediaTypeNames;
 
-public partial class Mantenimiento_Productos : System.Web.UI.Page
+public partial class Registro_Productos : System.Web.UI.Page
 {
     //Declarar una variable que haga referencia al archivo:Global.asax
     ASP.global_asax Global = new ASP.global_asax();
@@ -40,10 +39,10 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
 
         // Reiniciar la imagen y el mensaje del FileUpload
         this.IMG_Calzado.ImageUrl = "/IMG/LOGO.jpeg"; // Imagen por defecto
-     
 
-            //ubicar el cursor en el TXT_Producto
-            this.TXT_Producto.Focus();
+
+        //ubicar el cursor en el TXT_Producto
+        this.TXT_Producto.Focus();
     }
 
     //CREAR METODO LISTAR CATEGORIAS
@@ -77,7 +76,7 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
 
         Global.CN.Close();
     }
-        
+
 
     public void Listar_Tallas()
     {
@@ -230,7 +229,6 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
     //Crear el Método: Guardar()
     public void Guardar(string Tipo_Transaccion)
     {
-
         //Abrir la Conexión con la Base de Datos
         Global.CN.Open();
 
@@ -238,9 +236,11 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
         SqlParameter ParamCodProducto = new SqlParameter();
         SqlParameter ParamProducto = new SqlParameter();
         SqlParameter ParamDescripcion_Producto = new SqlParameter();
+        SqlParameter ParamMarca = new SqlParameter();
         SqlParameter ParamTalla = new SqlParameter();
         SqlParameter ParamModelo = new SqlParameter();
         SqlParameter ParamColor = new SqlParameter();
+        SqlParameter ParamGenero = new SqlParameter();
         SqlParameter ParamPrec_Venta_Menor = new SqlParameter();
         SqlParameter ParamPrec_Venta_Mayor = new SqlParameter();
         SqlParameter ParamStock_General = new SqlParameter();
@@ -373,7 +373,6 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
 
         //Cerrar Conexión con la Base de Datos
         Global.CN.Close();
-
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -388,7 +387,7 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
             this.limpiar();
             this.Listar_Categorias();
             this.listarEstado();
-           
+
             this.Listar_Marcas();
             this.Listar_Tallas();
             this.Listar_Colores();
@@ -396,7 +395,7 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
 
             this.BTN_Nuevo_Click(null, null);
 
-            if (Session["MantenimientoProductos_CodProducto"].ToString() !="")
+            if (Session["MantenimientoProductos_CodProducto"].ToString() != "")
             {
                 this.cargarDatos();
 
@@ -453,41 +452,41 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
 
 
 
-protected void btnImprimirQR_Click(object sender, EventArgs e)
-{
-    string codProducto = Lb_CodProducto.Text.Trim();
-    if (string.IsNullOrEmpty(codProducto))
+    protected void btnImprimirQR_Click(object sender, EventArgs e)
     {
-        ScriptManager.RegisterStartupScript(this, GetType(), "sinCodigo", "alert('No hay código de producto para generar el QR.');", true);
-        return;
-    }
-
-    var qrWriter = new BarcodeWriter
-    {
-        Format = BarcodeFormat.QR_CODE,
-        Options = new QrCodeEncodingOptions
+        string codProducto = Lb_CodProducto.Text.Trim();
+        if (string.IsNullOrEmpty(codProducto))
         {
-            Height = 250,
-            Width = 250
+            ScriptManager.RegisterStartupScript(this, GetType(), "sinCodigo", "alert('No hay código de producto para generar el QR.');", true);
+            return;
         }
-    };
-    using (Bitmap bitmap = qrWriter.Write(codProducto))
-    {
-        string carpeta = Server.MapPath("~/Codigos/");
-        if (!Directory.Exists(carpeta))
-            Directory.CreateDirectory(carpeta);
 
-        string filePath = Path.Combine(carpeta, codProducto + ".png");
-        bitmap.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
+        var qrWriter = new BarcodeWriter
+        {
+            Format = BarcodeFormat.QR_CODE,
+            Options = new QrCodeEncodingOptions
+            {
+                Height = 250,
+                Width = 250
+            }
+        };
+        using (Bitmap bitmap = qrWriter.Write(codProducto))
+        {
+            string carpeta = Server.MapPath("~/Codigos/");
+            if (!Directory.Exists(carpeta))
+                Directory.CreateDirectory(carpeta);
 
-        Response.Clear();
-        Response.ContentType = "image/png";
-        Response.AddHeader("Content-Disposition", "attachment; filename=" + codProducto + ".png");
-        Response.TransmitFile(filePath);
-        Response.Flush();
-        HttpContext.Current.ApplicationInstance.CompleteRequest();
+            string filePath = Path.Combine(carpeta, codProducto + ".png");
+            bitmap.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
+
+            Response.Clear();
+            Response.ContentType = "image/png";
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + codProducto + ".png");
+            Response.TransmitFile(filePath);
+            Response.Flush();
+            HttpContext.Current.ApplicationInstance.CompleteRequest();
+        }
     }
- }
 
     protected void btnImprimirBarras_Click(object sender, EventArgs e)
     {
@@ -557,7 +556,7 @@ protected void btnImprimirQR_Click(object sender, EventArgs e)
 
     public void cargarDatos()
     {
- 
+
         // Llenar controles desde sesión
         this.Lb_CodProducto.Text = Session["MantenimientoProductos_CodProducto"].ToString();
         this.TXT_Producto.Text = Session["MantenimientoProductos_Producto"].ToString();
@@ -573,25 +572,15 @@ protected void btnImprimirQR_Click(object sender, EventArgs e)
         this.TXT_PrecVentaMayor.Text = Session["MantenimientoProductos_Prec_Venta_Mayor"].ToString();
         this.TXT_Stock.Text = Session["MantenimientoProductos_Stock"].ToString();
         this.DDL_Estado.Text = Session["MantenimientoProductos_Estado"].ToString();
-        
-        //byte[] fotoObj = (byte[])Session["MantenimientoProductos_Foto"];
 
-        object fotoObj = Session["MantenimientoProductos_Foto"];
-
-        if (fotoObj is byte[] fotoBytes && fotoBytes.Length > 0)
+        byte[] foto = (byte[])Session["MantenimientoProductos_Foto"];
+        if (foto != null && foto.Length > 0)
         {
-            IMG_Calzado.ImageUrl = "data:image/jpeg;base64," + Convert.ToBase64String(fotoBytes);
+            IMG_Calzado.ImageUrl = "data:image/jpeg;base64," + Convert.ToBase64String(foto);
         }
         else
         {
             IMG_Calzado.ImageUrl = "/IMG/LOGO.jpeg"; // Imagen por defecto
         }
-
-
-
     }
-
-
-
 }
-

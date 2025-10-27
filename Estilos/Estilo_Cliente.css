@@ -1,0 +1,210 @@
+/* Estilos específicos para el formulario de clientes */
+
+/* Contenedor principal con margen para menú lateral */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    border-radius: 10px;
+    margin-left: 18em; /* igual que en .Tabla_Articulo */
+    margin-right: 20px; /* opcional para separación del borde */
+    width: 100%; /* deja que ocupe el espacio disponible */
+    background: #ffffff;
+    padding: 20px; /* ajusta según necesidad */
+}
+
+
+/* Ajustes para el formulario principal */
+.row {
+    margin-right: 25px;
+    margin-left: 18em;
+}
+
+.row.derecha1 {
+        display: flex;
+        justify-content: flex-end; /* las empuja a la derecha */
+        margin-right: 4em; /* ajusta cuánto se alejan del borde derecho */
+ }
+
+.row.derecha {
+        display: flex;
+        justify-content: flex-end; /* las empuja a la derecha */
+        margin-right: 4em; /* ajusta cuánto se alejan del borde derecho */
+    }
+
+  /* 🔹 Asegura que las tarjetas se alineen en fila dentro del card-body */
+.row.derecha .card-body1 {
+            display: flex;
+            justify-content: flex-end; /* mantiene las tarjetas hacia la derecha */
+            gap: 1.5rem; /* espacio entre tarjetas */
+            flex-wrap: nowrap; /* evita que bajen de línea */
+        }
+
+
+    /* 🔹 Ajuste visual de las mini tarjetas */
+    .row.derecha .col-md-3 {
+        flex: 0 0 auto; /* evita que se estiren */
+        width: 210px; /* ancho fijo y parejo */
+    }
+
+/* Estilos para las tarjetas */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    background: #fff;
+   
+}
+
+/* 🔹 En pantallas pequeñas, se apilan */
+@media (max-width: 992px) {
+    .row.derecha .card-body {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .row.derecha {
+        margin-right: 0;
+        justify-content: center;
+    }
+}
+
+.card-header {
+    border-radius: 10px 10px 0 0;
+    padding: 15px 20px;
+   
+}
+
+.card-header1 {
+    border-radius: 10px 10px 0 0;
+    padding: 15px 20px;
+ 
+}
+
+.card-body {
+    padding: 10px;
+   
+}
+
+.card-body1 {
+    padding:15px 20px;
+    margin-left: 18em; /* igual que en .Tabla_Articulo */
+    margin-right: 20px; /* opcional para separación del borde */
+}
+
+
+/* Estilos para el título principal */
+h1.text-center {
+    color: #3f51b5;
+    display: flex;
+    justify-content: flex-end;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-top: 1rem;
+    font-size: 2.2rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Ajustes para el formulario */
+.form-control {
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    transition: all 0.3s ease;
+}
+
+    .form-control:focus {
+        border-color: #3f51b5;
+        box-shadow: 0 0 0 0.2rem rgba(63, 81, 181, 0.25);
+    }
+
+/* Estilos para los botones */
+.btn {
+    border-radius: 6px;
+    padding: 8px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* Ajustes para las estadísticas */
+.card.bg-light {
+    background: #f8f9fa !important;
+    border: 1px solid #e9ecef;
+}
+
+/* Ajustes para la tabla de clientes */
+.table {
+    margin-bottom: 0;
+}
+
+    .table th {
+        border-top: none;
+        background: #f8f9fa;
+        font-weight: 600;
+    }
+
+/* Ajustes responsive */
+@media (max-width: 768px) {
+    .container {
+        margin-left: 65px;
+        width: calc(100% - 65px);
+    }
+}
+
+/* Estilos para los estados de cliente */
+.estado-activo {
+    background-color: #c8e6c9;
+    color: #2e7d32;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.estado-inactivo {
+    background-color: #ffcdd2;
+    color: #c62828;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.estado-pendiente {
+    background-color: #fff9c4;
+    color: #f9a825;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.estado-bloqueado {
+    background-color: #d1c4e9;
+    color: #4527a0;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+/* Ajustes para el modal */
+.modal-content {
+    border-radius: 10px;
+    border: none;
+}
+
+.modal-header {
+    border-radius: 10px 10px 0 0;
+}
+
+/* Ajustes para el GridView */
+.pagination {
+    margin-bottom: 0;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 0.875rem;
+}
+/* ✅ Asegurar que el contenido no tape el menú */
+main.content {
+    margin-left: 18em;
+    padding: 20px;
+}

@@ -1,0 +1,106 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Menu_Web.master.cs" Inherits="Menu_Web" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Ventas y Control de Stock</title>
+
+    <!-- Fuentes e íconos -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <!-- Enlace al CSS -->
+    <link href="Estilos/Estilo_Menu.css" rel="stylesheet" />
+
+    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+</head>
+
+<body>
+    <form id="form1" runat="server">
+        <div class="app">
+
+            <!-- MENU LATERAL -->
+            <aside class="sidebar">
+                <header>Menú Principal</header>
+                <nav class="sidebar-nav">
+                    <ul>
+
+                        <!-- EMPLEADOS -->
+                        <li>
+                            <a href="#"><i class="fa fa-users"></i><span> Empleados</span></a>
+                            <ul class="nav-flyout">
+                                <li><a href="Mantenimiento_Empleado.aspx"><i class="ion-person-add"></i> Registrar</a></li>
+                                <li><a href="ListarEmpleados.aspx"><i class="ion-ios-list"></i> Listar</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- CLIENTES -->
+                        <li>
+                            <a href="#"><i class="fa fa-address-book"></i><span> Clientes</span></a>
+                            <ul class="nav-flyout">
+                                <li><a href="Cliente.aspx"><i class="ion-person-add"></i> Registrar</a></li>
+                                <li><a href="ListarClientes.aspx"><i class="ion-ios-list"></i> Listar</a></li>
+                                <li><a href="HistorialCompras.aspx"><i class="ion-ios-clock-outline"></i> Historial</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- VENTAS -->
+                        <li>
+                            <a href="#"><i class="fa fa-shopping-cart"></i><span> Ventas</span></a>
+                            <ul class="nav-flyout">
+                                <li><a href="Pedido.aspx"><i class="ion-compose"></i> Registrar</a></li>
+                                <li><a href="ConsultarVentas.aspx"><i class="ion-search"></i> Consultar</a></li>
+                                <li><a href="Proforma.aspx"><i class="ion-document-text"></i> Proformas</a></li>
+                                <li><a href="ReporteVentas.aspx"><i class="ion-stats-bars"></i> Reporte</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- ALMACÉN -->
+                        <li>
+                            <a href="#"><i class="fa fa-cubes"></i><span> Almacén</span></a>
+                            <ul class="nav-flyout">
+                                <li><a href="Mantenimiento_Productos.aspx"><i class="ion-pricetag"></i> Registrar Producto</a></li>
+                                <li><a href="Reporte_Productos.aspx"><i class="ion-pricetag"></i> Lista Productos</a></li>
+                                <li><a href="Kardex.aspx"><i class="ion-ios-pulse"></i> Kardex</a></li>
+                                <li><a href="Proveedores.aspx"><i class="ion-briefcase"></i> Proveedores</a></li>
+                                <li><a href="Categorias.aspx"><i class="ion-ios-pricetags-outline"></i> Categorías</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- REPORTES -->
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart"></i><span> Reportes</span></a>
+                            <ul class="nav-flyout">
+                                <li><a href="ReporteMensual.aspx"><i class="ion-calendar"></i> Ventas por Mes</a></li>
+                                <li><a href="ProductosVendidos.aspx"><i class="ion-trophy"></i> Más Vendidos</a></li>
+                                <li><a href="StockBajo.aspx"><i class="ion-alert-circled"></i> Stock Bajo</a></li>
+                                <li><a href="Utilidades.aspx"><i class="ion-social-usd"></i> Utilidades</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- CONFIGURACIÓN -->
+                        <li>
+                            <a href="#"><i class="fa fa-cog"></i><span> Configuración</span></a>
+                            <ul class="nav-flyout">
+                                <li><a href="Usuarios.aspx"><i class="ion-locked"></i> Usuarios</a></li>
+                                <li><a href="Roles.aspx"><i class="ion-person"></i> Roles</a></li>
+                                <li><a href="CerrarSesion.aspx"><i class="ion-log-out"></i> Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- CONTENIDO PRINCIPAL -->
+            <main id="content" runat="server" class="Content">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+            </main>
+
+        </div>
+    </form>
+</body>
+</html>

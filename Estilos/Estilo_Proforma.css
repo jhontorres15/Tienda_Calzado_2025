@@ -1,0 +1,415 @@
+﻿/* 🎨 Estilos específicos para el formulario de Proformas */
+
+/* 📋 Contenedor principal con margen para menú lateral */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    border-radius: 15px;
+    margin-left: 18em; /* igual que en Cliente.aspx */
+    margin-right: 20px;
+    width: 100%;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* 🔄 Ajustes para el formulario principal */
+.row {
+    margin-right: 25px;
+    margin-left: 18em;
+}
+
+    .row.derecha1 {
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 4em;
+    }
+
+    .row.derecha {
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 4em;
+    }
+
+/* 💳 Estilos para las tarjetas con tema de proforma */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    margin-bottom: 30px;
+    background: #fff;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+
+/* 🎯 Header de tarjetas con gradientes temáticos */
+.card-header.bg-gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border-radius: 15px 15px 0 0;
+    padding: 20px 25px;
+    border: none;
+}
+
+.card-header.bg-gradient-secondary {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+    border-radius: 15px 15px 0 0;
+    padding: 20px 25px;
+    border: none;
+}
+
+.card-header h4 {
+    margin: 0;
+    font-weight: 600;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+}
+
+    .card-header h4 i {
+        margin-right: 10px;
+        font-size: 1.2em;
+    }
+
+/* 📝 Cuerpo de las tarjetas */
+.card-body {
+    padding: 25px;
+    background: #fff;
+}
+
+/* 🏷️ Etiquetas de formulario con iconos */
+.form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+    .form-label i {
+        margin-right: 6px;
+        width: 16px;
+        text-align: center;
+    }
+
+/* 📊 Controles de formulario mejorados */
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    background: #fff;
+}
+
+    .form-control:focus, .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
+        transform: translateY(-1px);
+    }
+
+    .form-control:hover, .form-select:hover {
+        border-color: #ced4da;
+        transform: translateY(-1px);
+    }
+
+    /* 💰 Estilos especiales para campos de precio e importe */
+    .form-control.bg-light {
+        background: #f8f9fa !important;
+        border-color: #dee2e6;
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    .form-control.bg-success {
+        background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%) !important;
+        border-color: #28a745;
+        color: #fff !important;
+        font-weight: 700;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+
+/* 🎨 Botones con estilos creativos */
+.btn {
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+}
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: #fff;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%);
+}
+
+.btn-info {
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+}
+
+/* 📋 Estilos para las tablas */
+.table {
+    margin-bottom: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+    .table th {
+        border-top: none;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        font-weight: 600;
+        text-align: center;
+        padding: 15px 10px;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .table td {
+        padding: 12px 10px;
+        vertical-align: middle;
+        border-color: #e9ecef;
+        text-align: center;
+    }
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.table-hover tbody tr:hover {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    transform: scale(1.01);
+    transition: all 0.2s ease;
+}
+
+/* 🔍 Estilos para la búsqueda */
+.input-group .form-control {
+    border-right: none;
+}
+
+.input-group .btn {
+    border-left: none;
+    border-color: #e9ecef;
+}
+
+/* 📊 Tarjeta de total con diseño especial */
+.card.bg-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border: none;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+    .card.bg-primary .card-body {
+        background: transparent;
+        color: #fff;
+    }
+
+    .card.bg-primary h5, .card.bg-primary h3 {
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+/* 🏷️ Estados de proforma */
+.estado-pendiente {
+    background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+    color: #2d3436;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.estado-aprobada {
+    background: linear-gradient(135deg, #55efc4 0%, #00b894 100%);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.estado-rechazada {
+    background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.estado-vencida {
+    background: linear-gradient(135deg, #636e72 0%, #2d3436 100%);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* 📱 Responsive design */
+@media (max-width: 768px) {
+    .container {
+        margin-left: 65px;
+        width: calc(100% - 65px);
+        padding: 15px;
+    }
+
+    .row {
+        margin-left: 65px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+}
+
+/* 🎯 Separadores creativos */
+hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+    margin: 25px 0;
+}
+
+/* 💫 Animaciones sutiles */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* 🔄 Paginación personalizada */
+.pagination {
+    margin-bottom: 0;
+}
+
+    .pagination .page-link {
+        border-radius: 8px;
+        margin: 0 2px;
+        border: none;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        color: #495057;
+        font-weight: 500;
+    }
+
+        .pagination .page-link:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+    .pagination .page-item.active .page-link {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-color: #667eea;
+    }
+
+/* 🎨 Efectos especiales para iconos */
+.fas, .far {
+    transition: all 0.3s ease;
+}
+
+.btn:hover .fas, .btn:hover .far {
+    transform: scale(1.1);
+}
+
+/* 📊 Contenedor principal mejorado */
+main.content {
+    margin-left: 18em;
+    padding: 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+/* 🎯 Estilos para campos requeridos */
+.form-control:required {
+    border-left: 4px solid #667eea;
+}
+
+.form-select:required {
+    border-left: 4px solid #667eea;
+}
+
+/* 💡 Tooltips y ayudas visuales */
+.form-text {
+    color: #6c757d;
+    font-size: 0.875rem;
+    font-style: italic;
+}
+
+/* 🎨 Efectos de hover para las filas de la tabla */
+.table tbody tr {
+    transition: all 0.2s ease;
+}
+
+    .table tbody tr:hover {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+/* 🔥 Estilos para botones pequeños en la tabla */
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    margin: 0 2px;
+}
+
+/* 🎪 Efectos especiales para el total */
+.card.bg-primary:hover {
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}

@@ -47,3 +47,54 @@ function escribir() {
 
 // Inicia el efecto cuando cargue la página
 document.addEventListener("DOMContentLoaded", escribir);
+
+
+
+
+
+
+
+
+
+//efectos de capturar imagen
+
+
+let html5QrcodeScanner;
+
+function abrirModal() {
+    document.getElementById("modalQR").style.display = "block";
+    iniciarCamara();
+}
+
+function cerrarModal() {
+    document.getElementById("modalQR").style.display = "none";
+    if (html5QrcodeScanner) {
+        html5QrcodeScanner.stop().catch(err => console.log(err));
+    }
+}
+
+function iniciarCamara() {
+    const txtBuscar = document.getElementById('<%= txtBuscar.ClientID %>');
+    const btnBuscar = document.getElementById('<%= btnBuscar.ClientID %>');
+
+    html5QrcodeScanner = new Html5Qrcode("qr-reader");
+
+    const config = { fps: 10, qrbox: 250 };
+
+    html5QrcodeScanner.start(
+        { facingMode: "environment" },
+        config,
+        qrCodeMessage => {
+            // Se detectó QR
+            txtBuscar.value = qrCodeMessage;  // Coloca en txtBuscar
+            btnBuscar.click();                 // Ejecuta búsqueda
+            cerrarModal();                     // Cierra modal y detiene cámara
+        },
+        errorMessage => {
+            console.log("QR Error: " + errorMessage);
+        }
+    ).catch(err => {
+        alert("No se pudo iniciar la cámara: " + err);
+        cerrarModal();
+    });
+}

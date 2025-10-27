@@ -1,32 +1,38 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Reporte_Productos.aspx.cs" Inherits="Reporte_Productos" %>
+﻿<%@ Page Title="Reporte de Productos" Language="C#" MasterPageFile="~/Menu_Web.master" AutoEventWireup="true" CodeFile="Reporte_Productos.aspx.cs" Inherits="Reporte_Productos" %>
 
-<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Reporte de Productos</title>
-    <link rel="stylesheet" href="Estilos/Estilo_Reporte_Producto.css" type="text/css" />
-    <style type="text/css">
+<asp:Content ID="ContentHead" ContentPlaceHolderID="head" runat="server">
 
-    </style>
-</head>
-<body class="body">
-    <form id="form1" runat="server" class="Formulario_Reporte_Articulo">
-        <div>
-            <center> 
-            <table class="auto-style1">
+ <link rel="stylesheet" href="Estilos/Estilo_Reporte_Producto.css" type="text/css" />
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="js/efectos.js" type="text/javascript"></script>
+
+        <link rel="stylesheet" href="Estilos/Estilo_Menu.css" type="text/css" />
+    </asp:Content>
+
+<asp:Content ID="ContentBody" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+
+   
+
+    
+    <div class="Formulario_Reporte_Articulo">
+        
+            <left> 
+            <table class="Tabla_Reporte">
                 <tr>
-                    <td class="Titulo_Formulario">Reportes de Articulos</td>
+                    <td class="Titulo_Formulario">Reportes de Artículos</td>
                 </tr>
-
             </table>
-                <br />
-                                <asp:TextBox ID="txtBuscar" runat="server" Placeholder="Buscar producto por nombre o código" CssClass="txtBuscar"></asp:TextBox>
-<asp:Button ID="btnBuscar" runat="server" Text="Buscar" OnClick="btnBuscar_Click" CssClass="btnBuscar"/>
-<br /><br />
-                <asp:GridView ID="GV_Productos" runat="server" AutoGenerateColumns="False" Width="1100px">
-                    <Columns>
+</left>
+            <br />
+
+            <asp:TextBox ID="txtBuscar" runat="server" Placeholder="Buscar producto por nombre o código" CssClass="txtBuscar"></asp:TextBox>
+            <asp:Button ID="btnBuscar" runat="server" Text="Buscar" OnClick="btnBuscar_Click" CssClass="btnBuscar" />
+
+            <br /><br />
+
+            <asp:GridView ID="GV_Productos" runat="server" AutoGenerateColumns="False" Width="1100px" OnRowCommand="GV_Productos_RowCommand">
+                <Columns>
                         <asp:ButtonField ButtonType="Button" CommandName="BTN_Ver" Text="Ver Detalle" >
                         <ItemStyle CssClass="BotonVerDetalle" Width="50px" />
                         </asp:ButtonField>
@@ -62,10 +68,6 @@
                         <HeaderStyle CssClass="Cabecera_Etiqueta" />
                         <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" VerticalAlign="Middle" Width="60px" />
                         </asp:BoundField>
-                        <asp:BoundField DataField="Genero" HeaderText="Género" >
-                        <HeaderStyle CssClass="Cabecera_Etiqueta" />
-                        <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" VerticalAlign="Middle" Width="60px" />
-                        </asp:BoundField>
                         <asp:BoundField DataField="Prec_Venta_Menor" HeaderText="Prec. Venta Menor" >
                         <HeaderStyle CssClass="Cabecera_Etiqueta" />
                         <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" VerticalAlign="Middle" Width="60px" />
@@ -83,11 +85,22 @@
                         <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" VerticalAlign="Middle" Width="60px" />
                         </asp:BoundField>
 
-                    </Columns>
-                </asp:GridView>
-                <br /> 
-            </center>
+                    <asp:TemplateField HeaderText="Foto">
+                        <HeaderStyle CssClass="Cabecera_Etiqueta" />
+                        <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" />
+                        <ItemTemplate>
+                        <asp:Image ID="IMG_Item" runat="server" 
+                            ImageUrl='<%# "data:image/jpeg;base64," + Convert.ToBase64String((byte[])Eval("Foto")) %>' 
+                            Width="50px" />
+                          </ItemTemplate>
+                        </asp:TemplateField>
+
+
+                </Columns>
+            </asp:GridView>
+
+            
+        
+    
         </div>
-    </form>
-</body>
-</html>
+</asp:Content>
