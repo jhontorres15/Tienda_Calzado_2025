@@ -1,22 +1,8 @@
-﻿/* 🎨 Estilos específicos para el formulario de Proformas */
-
-/* 📋 Contenedor principal con margen para menú lateral */
-.container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    border-radius: 15px;
-    margin-left: 18em; /* igual que en Cliente.aspx */
-    margin-right: 20px;
-    width: 100%;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    padding: 25px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
+﻿
 /* 🔄 Ajustes para el formulario principal */
 .row {
     margin-right: 25px;
-    margin-left: 18em;
+    /* margin-left: 18em;*/
 }
 
     .row.derecha1 {
@@ -30,6 +16,74 @@
         justify-content: flex-end;
         margin-right: 4em;
     }
+
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1200px) {
+    main.content,
+    .container.mt-4,
+    .row.derecha1 {
+        margin-left: 16em;
+    }
+}
+
+@media (max-width: 1200px) {
+    main.content,
+    .container.mt-4,
+    .row.derecha1 {
+        margin-left: 0;
+        margin-top: 80px;
+    }
+
+    .card-header {
+        padding: 15px 20px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .form-control, .form-select {
+        padding: 10px 14px;
+    }
+
+    .table-responsive {
+        border-radius: 15px;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container.mt-4 {
+        padding: 15px;
+    }
+
+    .card-header h4 {
+        font-size: 18px;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .row.mt-4 .col-12 .btn {
+        width: auto;
+        margin: 5px;
+    }
+}
+
+
 
 /* 💳 Estilos para las tarjetas con tema de proforma */
 .card {
@@ -49,14 +103,14 @@
 
 /* 🎯 Header de tarjetas con gradientes temáticos */
 .card-header.bg-gradient-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%);
     border-radius: 15px 15px 0 0;
     padding: 20px 25px;
     border: none;
 }
 
 .card-header.bg-gradient-secondary {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+    background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%);
     border-radius: 15px 15px 0 0;
     padding: 20px 25px;
     border: none;
@@ -177,42 +231,12 @@
     background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
 }
 
-/* 📋 Estilos para las tablas */
-.table {
-    margin-bottom: 0;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
 
-    .table th {
-        border-top: none;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: #fff;
-        font-weight: 600;
-        text-align: center;
-        padding: 15px 10px;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
 
-    .table td {
-        padding: 12px 10px;
-        vertical-align: middle;
-        border-color: #e9ecef;
-        text-align: center;
-    }
 
-.table-striped tbody tr:nth-of-type(odd) {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-}
 
-.table-hover tbody tr:hover {
-    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-    transform: scale(1.01);
-    transition: all 0.2s ease;
-}
+
+
 
 /* 🔍 Estilos para la búsqueda */
 .input-group .form-control {
@@ -368,12 +392,13 @@ hr {
 }
 
 /* 📊 Contenedor principal mejorado */
-main.content {
-    margin-left: 18em;
+.main.content {
+    margin-left: 2em; /*18 */
     padding: 20px;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: #667eea;
     min-height: 100vh;
 }
+
 
 /* 🎯 Estilos para campos requeridos */
 .form-control:required {
@@ -412,4 +437,88 @@ main.content {
 .card.bg-primary:hover {
     transform: scale(1.02);
     transition: all 0.3s ease;
+}
+
+
+
+
+.col-nropedido {
+    width: 150px !important;
+    /* Ajustar según tu gusto */
+    max-width: 145px !important;
+    min-width: 110px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.card-pedidos {
+    width: 100% !important;
+    /* Usa todo el ancho posible */
+    max-width: 1400px !important;
+    /* Puedes subir a 1500 si deseas */
+    margin: auto;
+    /* Centra la card */
+}
+
+.col-estadoPedido {
+    width: 150px !important;
+    /* Ajustar según tu gusto */
+    max-width: 115px !important;
+    min-width: 110px !important;
+    text-align: center;
+}
+
+/* Ancho fijo para montos */
+.col-monto {
+    width: 120px !important;
+    min-width: 120px !important;
+    text-align: right;
+    padding-right: 15px !important;
+}
+
+/* Ancho fijo para estados */
+.col-estado {
+    width: 120px !important;
+    text-align: center;
+}
+
+.col-codigo {
+    width: auto !important;
+    /* Ajuste automático al contenido */
+    min-width: 60px !important;
+    /* Mínimo razonable */
+    text-align: center !important;
+    font-weight: bold;
+    white-space: nowrap !important;
+    padding: 5px !important;
+    /* Menos padding */
+}
+
+
+
+
+
+/* Pendiente: Amarillo/Naranja (Alerta, espera) */
+.estado-pendiente {
+    color: #ffc107;
+    font-weight: 600;
+}
+
+/* Aprobada: Verde (Éxito, procede a pedido) */
+.estado-aprobada {
+    color: #28a745;
+    font-weight: 600;
+}
+
+/* Anulada: Rojo (Cancelado, error) */
+.estado-anulada {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+/* Vencida: Gris Oscuro (Expirado, ya no es válido) */
+.estado-vencida {
+    color: #6c757d;
+    font-weight: 600;
 }

@@ -1,0 +1,41 @@
+﻿.card-header.bg-info {
+    background: linear-gradient(135deg, #0dcaf0 0%, #0bb3d6 40%, #0899b8 100%);
+    color: #fff;
+}
+
+.card {
+    border: none;
+}
+
+.form-control, .form-select, textarea {
+    border-radius: 0.375rem;
+}
+
+    .form-control:focus, .form-select:focus, textarea:focus {
+        box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25);
+        border-color: #0dcaf0;
+    }
+
+.btn-primary {
+    transition: filter .2s ease;
+}
+
+    .btn-primary:hover {
+        filter: brightness(1.05);
+    }
+
+.btn-outline-secondary:hover {
+    background: #f8f9fa;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(13, 202, 240, 0.1);
+}
+
+.pagination {
+    justify-content: center;
+}
+
+.container.mt-4 {
+    margin-top: 5rem !important;
+}

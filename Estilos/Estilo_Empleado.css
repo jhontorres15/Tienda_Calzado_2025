@@ -1,6 +1,4 @@
 ﻿/* Contenedor principal con margen para menú lateral */
-.container {
-}
 
 /* Estilos para el formulario de empleados */
 .container-employee {
@@ -44,6 +42,7 @@
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
     padding: 1rem;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
 .form-group {

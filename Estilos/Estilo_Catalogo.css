@@ -1,0 +1,88 @@
+/* Layout general: respeta el menú lateral */
+.catalogo-container {
+    margin-left: 18em;
+    width:100%;
+}
+
+.section-title {
+    font-weight: 600;
+    color: #334;
+    margin-bottom: 0.75rem;
+}
+
+/* Card de configuración superior */
+.catalogo-config-card .card-header {
+    background: linear-gradient(90deg, #3f51b5, #5c6bc0);
+    color: #fff;
+}
+
+.btn-gradient {
+    background: linear-gradient(90deg, #3f51b5, #5c6bc0);
+    color: #fff;
+    border: none;
+}
+
+    .btn-gradient:hover {
+        filter: brightness(1.05);
+    }
+
+/* Tarjetas del catálogo */
+.catalogo-card {
+    border: none;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: transform .15s ease;
+}
+
+    .catalogo-card:hover {
+        transform: scale(1.03);
+    }
+
+    .catalogo-card .card-body {
+        padding: 1rem 1.1rem;
+    }
+
+.modelo-img {
+    max-height: 180px;
+    width: 100%;
+    object-fit: cover;
+    background: #f9fafc;
+    padding: 8px;
+}
+
+.talla-block .label,
+.stock-block .label,
+.colors-block .label {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: #445;
+    margin-bottom: 0.35rem;
+}
+
+.colors-list {
+    display: inline-block;
+    background: #eef2ff;
+    color: #334;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+.stock-low {
+    color: #c62828 !important;
+    font-weight: 600;
+}
+
+/* Responsive: mantén 3 por fila en desktop, 2 en tablet, 1 en móvil */
+@media (max-width: 992px) {
+    .catalogo-container {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .modelo-img {
+        max-height: 140px;
+    }
+}

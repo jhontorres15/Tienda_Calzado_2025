@@ -31,7 +31,7 @@
         Session.Add("MantenimientoProductos_Tipo_Transaccion", "");
 
 
-                // Inicializar las sesiones para mantenimiento de empleados
+        // Inicializar las sesiones para mantenimiento de empleados
         Session.Add("MantenimientoEmpleado_CodEmpleado", "");
         Session.Add("MantenimientoEmpleado_Apellido", "");
         Session.Add("MantenimientoEmpleado_Nombre", "");
@@ -55,9 +55,65 @@
         Session.Add("MantenimientoEmpleado_Foto", "");
         Session.Add("MantenimientoEmpleado_Estado_Empleado", "");
         Session.Add("MantenimientoEmpleado_Obs_Estado_Empleado", "");
-
         Session.Add("MantenimientoEmpleado_Tipo_Transaccion", "");
 
+
+
+        Session.Add("MantenimientoUsuario_Empleado_Tipo_Transaccion", "");
+        Session.Add("MantenimientoUsuario_Empleado_CodEmpleado", "");
+        Session.Add("MantenimientoUsuario_Empleado_NombreEmpleado", "");
+
+        //cliente
+        Session.Add("MantenimientoCliente_CodCliente", "");
+        Session.Add("MantenimientoCliente_Tipo_Transaccion", "");
+        Session.Add("MantenimientoCliente_Apellido", "");
+        Session.Add("MantenimientoCliente_Nombre", "");
+        Session.Add("MantenimientoCliente_Fec_Nac", "");
+        Session.Add("MantenimientoCliente_Sexo", "");
+        Session.Add("MantenimientoCliente_Nacionalidad", "");
+        Session.Add("MantenimientoCliente_Documento_Identidad", "");
+        Session.Add("MantenimientoCliente_NroDoc_Identidad", "");
+        Session.Add("MantenimientoCliente_Departamento", "");
+        Session.Add("MantenimientoCliente_Provincia", "");
+        Session.Add("MantenimientoCliente_Distrito", "");
+        Session.Add("MantenimientoCliente_Direccion", "");
+        Session.Add("MantenimientoCliente_Telefono", "");
+        Session.Add("MantenimientoCliente_Email", "");
+        Session.Add("MantenimientoCliente_Fec_Registro", "");
+        Session.Add("MantenimientoCliente_Estado_Cliente", "");
+
+
+        //PROFORMA
+        Session.Add("MantenimientoProforma_NroProforma", "");
+        Session.Add("MantenimientoProforma_Tipo_Transaccion", "");
+
+        Session.Add("MantenimientoDetalleProforma", "");
+
+
+        //Almacen_Producto
+        Session.Add("MantenimientoAlmacenProducto_NroSerie_Producto", "");
+        Session.Add("MantenimientoAlmacenProducto_Tipo_Transaccion", "");
+        Session.Add("MantenimientoAlmacenProducto_CodProducto", "");
+        Session.Add("MantenimientoAlmacenProducto_Stock_Actual", "");
+        Session.Add("MantenimientoAlmacenProducto_CodSucursal", "");
+        Session.Add("MantenimientoAlmacenProducto_Stock_Minimo", "");
+        Session.Add("MantenimientoAlmacenProducto_Estado_Producto", "");
+
+
+        Session.Add("MantenimientoFacturacion_NroFacturacion", "");
+        Session.Add("MantenimientoFacturacion_Tipo_Transaccion", "");
+
+
+
+        Session.Add("MantenimientoEmpresa_CodEmpresa", "");
+        Session.Add("MantenimientoEmpresaProveedor_Tipo_Transaccion", "");
+
+
+        Session.Add("MantenimientoGuiaRemision_NroGuia", "");
+        Session.Add("MantenimientoGuiaRemision_Tipo_Transaccion", "");
+
+
+        Session.Add("MantenimientoCotizacion_NroCotizacion", "");
     }
 
     void Session_End(object sender, EventArgs e)
@@ -103,6 +159,71 @@
         Session.Remove("MantenimientoEmpleado_Obs_Estado_Empleado");
         Session.Remove("MantenimientoEmpleado_Tipo_Transaccion");
 
+
+        //usario_empelado
+        Session.Remove("MantenimientoUsuario_Empleado_Tipo_Transaccion");
+        Session.Remove("MantenimientoUsuario_Empleado_CodEmpleado");
+        Session.Remove("MantenimientoUsuario_Empleado_NombreEmpleado");
+
+
+
+        //cliente
+        Session.Remove("MantenimientoCliente_CodCliente");
+        Session.Remove("MantenimientoCliente_Apellido");
+        Session.Remove("MantenimientoCliente_Nombre");
+        Session.Remove("MantenimientoCliente_Fec_Nac");
+        Session.Remove("MantenimientoCliente_Sexo");
+        Session.Remove("MantenimientoCliente_Nacionalidad");
+        Session.Remove("MantenimientoCliente_Documento_Identidad");
+        Session.Remove("MantenimientoCliente_NroDoc_Identidad");
+        Session.Remove("MantenimientoCliente_Departamento");
+        Session.Remove("MantenimientoCliente_Provincia");
+        Session.Remove("MantenimientoCliente_Distrito");
+        Session.Remove("MantenimientoCliente_Direccion");
+        Session.Remove("MantenimientoCliente_Telefono");
+        Session.Remove("MantenimientoCliente_Email");
+        Session.Remove("MantenimientoCliente_Fec_Registro");
+        Session.Remove("MantenimientoCliente_Estado_Cliente");
+        Session.Remove("MantenimientoCliente_Tipo_Transaccion");
+
+
+
+        //PROFORMA
+        Session.Remove("MantenimientoProforma_NroProforma");
+        Session.Remove("MantenimientoProforma_Tipo_Transaccion");
+
+        Session.Remove("MantenimientoDetalleProforma");
+
+
+        //Almacen_Producto
+        Session.Remove("MantenimientoAlmacenProducto_NroSerie_Producto");
+        Session.Remove("MantenimientoAlmacenProducto_Tipo_Transaccion");
+        Session.Remove("MantenimientoAlmacenProducto_CodProducto");
+        Session.Remove("MantenimientoAlmacenProducto_Stock_Actual");
+        Session.Remove("MantenimientoAlmacenProducto_CodSucursal");
+        Session.Remove("MantenimientoAlmacenProducto_Stock_Minimo");
+        Session.Remove("MantenimientoAlmacenProducto_Estado_Producto");
+
+
+
+        //Facturacion
+        Session.Remove("MantenimientoFacturacion_NroFacturacion");
+        Session.Remove("MantenimientoFacturacion_Tipo_Transaccion");
+
+
+
+        Session.Remove("MantenimientoEmpresa_CodEmpresa");
+        Session.Remove("MantenimientoEmpresaProveedor_Tipo_Transaccion");
+
+
+
+
+        Session.Remove("MantenimientoGuiaRemision_NroGuia");
+        Session.Remove("MantenimientoGuiaRemision_Tipo_Transaccion");
+
+
+
+         Session.Remove("MantenimientoCotizacion_NroCotizacion");
     }
 </script>
 

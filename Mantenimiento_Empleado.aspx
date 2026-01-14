@@ -64,15 +64,15 @@
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label for="<%= TXT_CodEmpleado.ClientID %>" class="form-label">Código Empleado:</label>
-                            <asp:TextBox ID="TXT_CodEmpleado" runat="server" CssClass="form-control" MaxLength="60" Width="150px"  readonly/>
+                            <label for="<%= TXT_CodEmpleado.ClientID %>" class="form-label" font-bold="True">Código Empleado:</label>
+                            <asp:TextBox ID="TXT_CodEmpleado" runat="server" CssClass="form-control" MaxLength="60" Width="150px" readonly="true"/>
                         </div>
                          <div class="col-md-4">
-                            <label for="<%= txtNombre.ClientID %>" class="form-label">Nombres:</label>
+                            <label for="<%= txtNombre.ClientID %>" class="form-label" font-bold="True" >Nombres:</label>
                             <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control" MaxLength="60" Width="260px" onkeypress="return SoloLetras(event);"/>
                         </div>
                         <div class="col-md-4">
-                            <label for="<%= txtApellido.ClientID %>" class="form-label">Apellidos:</label>
+                            <label for="<%= txtApellido.ClientID %>" class="form-label" font-bold="True">Apellidos:</label>
                             <asp:TextBox ID="txtApellido" runat="server" CssClass="form-control" MaxLength="60"  Width="260px"  onkeypress="return SoloLetras(event);"/>
             
 
@@ -83,11 +83,11 @@
                     <div class="row mb-3">
                         
                          <div class="col-md-4">
-                         <label for="<%= txtFecNac.ClientID %>" class="form-label">Fecha Nacimiento:</label>
+                         <label for="<%= txtFecNac.ClientID %>" class="form-label" font-bold="True">Fecha Nacimiento:</label>
                          <asp:TextBox ID="txtFecNac" runat="server" CssClass="form-control" TextMode="Date" />
                      </div>
                         <div class="col-md-4">
-                            <label for="<%= ddlSexo.ClientID %>" class="form-label">Sexo:</label>
+                            <label for="<%= ddlSexo.ClientID %>" class="form-label" font-bold="True">Sexo:</label>
                             <asp:DropDownList ID="ddlSexo" runat="server" CssClass="form-control">
                                 <asp:ListItem Text="Seleccione..." Value="" />
                                 <asp:ListItem Text="Masculino" Value="M" />
@@ -95,7 +95,7 @@
                             </asp:DropDownList>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">Nacionalidad:</label>
+                            <label class="form-label" font-bold="True">Nacionalidad:</label>
                             <asp:DropDownList ID="DDL_Nacionalidad" runat="server" CssClass="form-select" AutoPostBack="True" OnSelectedIndexChanged="DDL_Nacionalidad_SelectedIndexChanged">
                             </asp:DropDownList>
                         </div>
@@ -103,37 +103,37 @@
                     </div>
                     <div class="row mb-3">
                        <div class="col-md-3">
-                        <label class="form-label">Tipo de Documento:</label>
+                        <label class="form-label" font-bold="True">Tipo de Documento:</label>
                         <asp:DropDownList ID="DDL_TipoDoc" runat="server" CssClass="form-select">
                         </asp:DropDownList>
                     </div>
                     <div class="col-md-3">
-                        <label for="<%= TXT_NroDocumento.ClientID %>" class="form-label">Nro. Documento:</label>
+                        <label for="<%= TXT_NroDocumento.ClientID %>" class="form-label" font-bold="True">Nro. Documento:</label>
                         <asp:TextBox ID="TXT_NroDocumento" runat="server" CssClass="form-control" MaxLength="20" Width="200px" onkeypress="return SoloNumeros(event);"/>
                     </div>
                         <div class="col-md-3">
-                        <label for="<%= TXT_FecContrato.ClientID %>" class="form-label">Fecha Contrato:</label>
+                        <label for="<%= TXT_FecContrato.ClientID %>" class="form-label" font-bold="True">Fecha Contrato:</label>
                         <asp:TextBox ID="TXT_FecContrato" runat="server" CssClass="form-control" TextMode="Date" Width="200px" />
                     </div>
                     <div class="col-md-3">
-                        <label for="<%= TXT_FecTermino.ClientID %>" class="form-label">Término Contrato:</label>
+                        <label for="<%= TXT_FecTermino.ClientID %>" class="form-label" font-bold="True">Término Contrato:</label>
                         <asp:TextBox ID="TXT_FecTermino" runat="server" CssClass="form-control" TextMode="Date" Width="200px"/>
                     </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label class="form-label">Departamento</label>
+                            <label class="form-label" font-bold="True">Departamento</label>
                             <asp:DropDownList ID="DDL_Departamento" runat="server" CssClass="form-select" AutoPostBack="True" OnSelectedIndexChanged="DDL_Departamento_SelectedIndexChanged">
                             </asp:DropDownList>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">Provincia</label>
+                            <label class="form-label" font-bold="True">Provincia</label>
                             <asp:DropDownList ID="DDL_Provincia" runat="server" CssClass="form-select" AutoPostBack="True" OnSelectedIndexChanged="DDL_Provincia_SelectedIndexChanged">
                             </asp:DropDownList>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">Distrito</label>
+                            <label class="form-label" font-bold="True">Distrito</label>
                             <asp:DropDownList ID="DDL_Distrito" runat="server" CssClass="form-select" AutoPostBack="True">
                             </asp:DropDownList>
                         </div>
@@ -142,20 +142,21 @@
                         
                     <div class="row mb-3">
                          <div class="col-md-5">
-                        <label for="<%= TXT_Direccion.ClientID %>" class="form-label">Dirección:</label>
+                        <label for="<%= TXT_Direccion.ClientID %>" class="form-label" font-bold="True">Dirección:</label>
                         <asp:TextBox ID="TXT_Direccion" runat="server" CssClass="form-control" MaxLength="80" Width="350px"/>
                     </div>
                       <div class="col-md-4">
-                       <label class="form-label">Estado Civil:</label>
+                       <label class="form-label" font-bold="True">Estado Civil:</label>
                       <asp:DropDownList ID="DDL_EstadoCivil" runat="server" CssClass="form-select" Width="250px">
                              <asp:ListItem Text="Seleccione..." Value="" />
                                <asp:ListItem Text="Divorciado" Value="D" />
                                <asp:ListItem Text="Viudo" Value="V" />
                                <asp:ListItem Text="Casado" Value="C" />
+                               <asp:ListItem Text="Soltero" Value="S" />
                        </asp:DropDownList> 
                    </div>
                          <div class="col-md-3">
-                         <label  class="form-label">Nro. De Hijos:</label>
+                         <label  class="form-label" font-bold="True">Nro. De Hijos:</label>
                          <asp:TextBox ID="TXT_NroHijos" runat="server" CssClass="form-control" MaxLength="20" Width="120px" onkeypress="return SoloNumeros(event);"/>
                      </div>
 
@@ -164,23 +165,23 @@
                     <div class="row mb-3">
                         
                         <div class="col-md-3">
-                            <label class="form-label">Sucursal:</label>
+                            <label class="form-label" font-bold="True">Sucursal:</label>
                            <asp:DropDownList ID="DDL_Sucursal" runat="server" CssClass="form-select">
                             </asp:DropDownList> 
                         </div>
 
                         <div class="col-md-3">
-                        <label class="form-label">Area:</label>
+                        <label class="form-label" font-bold="True">Area:</label>
                        <asp:DropDownList ID="DDL_Area" runat="server" CssClass="form-select">
                         </asp:DropDownList> 
                                 </div>
                              <div class="col-md-3">
-                         <label class="form-label">Cargo:</label>
+                         <label class="form-label" font-bold="True">Cargo:</label>
                         <asp:DropDownList ID="DDL_Cargo" runat="server" CssClass="form-select">
                          </asp:DropDownList> 
                                  </div>
                         <div class="col-md-3">
-                         <label for="<%= TXT_Sueldo.ClientID %>" class="form-label">Sueldo:</label>
+                         <label for="<%= TXT_Sueldo.ClientID %>" class="form-label" font-bold="True">Sueldo:</label>
                          <asp:TextBox ID="TXT_Sueldo" runat="server" CssClass="form-control" TextMode="Number" />
                      </div>
                     </div>
@@ -190,16 +191,16 @@
                     <div class="row mb-3">
       
                         <div class="col-md-3">
-                            <label for="<%= TXT_Telefono.ClientID %>" class="form-label">Teléfono:</label>
+                            <label for="<%= TXT_Telefono.ClientID %>" class="form-label" font-bold="True">Teléfono:</label>
                             <asp:TextBox ID="TXT_Telefono" runat="server" CssClass="form-control" MaxLength="12" onkeypress="return SoloNumeros(event);"/>
                         </div>
                         <div class="col-md-3">
-                            <label for="<%= TXT_Email.ClientID %>" class="form-label">Email:</label>
+                            <label for="<%= TXT_Email.ClientID %>" class="form-label" font-bold="True">Email:</label>
                             <asp:TextBox ID="TXT_Email" runat="server" CssClass="form-control" MaxLength="40" TextMode="Email" />
                         </div>
 
                      <div class="col-md-3">
-                            <label class="form-label">Estado Empleado:</label>
+                            <label class="form-label" font-bold="True">Estado Empleado:</label>
                             <asp:DropDownList ID="DDL_Estado" runat="server" CssClass="form-control">
                                 <asp:ListItem Text="Activo" />
                                 <asp:ListItem Text="Inactivo" />
@@ -208,7 +209,7 @@
                             </asp:DropDownList>
                         </div>
                      <div class="col-md-3">
-                            <label class="form-label">Foto:</label>
+                            <label class="form-label" font-bold="True">Foto:</label>
                             <asp:FileUpload ID="FileUpload1" runat="server" CssClass="form-control" />
                         </div>
                     </div>
@@ -216,12 +217,12 @@
                     <div class="row mb-3">
 
                         <div class="col-md-3  center">
-                       <label  class="form-label">Foto:</label>
+                       <label  class="form-label" font-bold="True">Foto:</label>
                       <asp:Image ID="IMG_Calzado" runat="server" Width="150px" Height="150px" ImageUrl="~/IMG/LOGO.jpeg" />
                         </div>
                          
                        <div class="col-md-3">
-                       <label  class="form-label">Observacion Empleado:</label>
+                       <label  class="form-label" font-bold="true">Observacion Empleado:</label>
                        <asp:TextBox ID="TXT_ObsEmpleado" runat="server" CssClass="form-control" MaxLength="20" Width="500px" EnableTheming="True" TextMode="MultiLine" height="55px"/>
                       </div>
 
@@ -269,7 +270,7 @@
                             <asp:TemplateField HeaderText="Acciones">
                                 <ItemTemplate>
                                     <asp:Button ID="BTN_EditarEmpleado" runat="server" Text="Editar" CssClass="btn btn-primary btn-sm" CommandName="Editar" CommandArgument="<%# Container.DataItemIndex %>" />
-                                    <asp:Button ID="BTN_EliminarEmpleado" runat="server" Text="Eliminar" CssClass="btn btn-danger btn-sm" CommandName="Eliminar"  />
+                                   
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>

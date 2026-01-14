@@ -1,0 +1,68 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
+/* --- ESTILOS GENERALES (Mantenidos de tu código anterior) --- */
+.card {
+    border-radius: 1rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+    /* Efecto hover suave para las tarjetas */
+    .card:hover {
+        transform: translateY(-2px);
+    }
+
+/* --- ESTILOS ESPECIFICOS DASHBOARD --- */
+
+/* Badge de fecha en el título */
+.date-badge {
+    background-color: #eef2f7;
+    color: #495057;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Tarjetas de KPI (Números grandes) */
+.kpi-card {
+    background: #fff;
+    border-left: 4px solid #0d6efd !important; /* Borde azul a la izquierda */
+}
+
+/* Panel de Filtros (Estilo oscuro como en la imagen) */
+.bg-dark-gradient {
+    background: linear-gradient(145deg, #343a40, #495057);
+    color: white;
+}
+
+    .bg-dark-gradient .btn-outline-light:hover {
+        background-color: #fff;
+        color: #343a40;
+    }
+
+/* Tablas dentro de tarjetas */
+.table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+.table td {
+    vertical-align: middle;
+    font-size: 0.9rem;
+}
+
+/* Placeholder para gráficos (Donde iría el Chart.js o asp:Chart) */
+.chart-placeholder {
+    background-color: #f8f9fa;
+    border: 2px dashed #dee2e6;
+}
+
+/* Ajustes Responsive */
+@media (max-width: 992px) {
+    .kpi-card h3 {
+        font-size: 1.5rem;
+    }
+}

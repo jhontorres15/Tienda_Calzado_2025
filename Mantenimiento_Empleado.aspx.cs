@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -26,37 +24,40 @@ public partial class Mantenimiento_Empleado : System.Web.UI.Page
         //Crear un Nuevo Adaptador de Datos
         SqlDataAdapter DA = new SqlDataAdapter("SELECT CodEmpleado, (Apellido + ' ' + Nombre) AS Empleado, Sucursal, Area, Cargo, Telefono, Email, Estado_Empleado FROM V_Listar_Empleados", Global.CN);
         //Cargar Datos del Adaptador de Datos a un DataTable
+   
         DA.Fill(DT);
-        //Cargar Datos del DataTable en el Control: GV_Articulos
-        GV_Empleados.DataSource = DT;
-        GV_Empleados.DataBind();
-
-        //Liberar Recursos del Adaptador de Datos
-        DA.Dispose();
-        //Cerrar Conexión con la Base de Datos
-
+        GV_Empleados.DataSource = DT; // <-- PASO 1: Primero asigna los datos
+        GV_Empleados.DataBind(); // <-- PASO 2: Ahora sí, llama a DataBind()
+                                 //...
         Global.CN.Close();
     }
 
-    void Nuevo() { 
+    private void MostrarMensaje(string mensaje, string tipo)
+    {
+        ScriptManager.RegisterStartupScript(this, GetType(), "Mensaje",
+         $"Swal.fire({{ icon: '{tipo}', title: 'Información', text: '{mensaje}', confirmButtonText: 'Aceptar' }});", true);
+    }
+
+    void Nuevo()
+    {
         //Abrir Conexión con la Base de Datos
         Global.CN.Open();
-            //Declarar y Configurar un Nuevo Comando de Datos
-            SqlCommand CMDNuevo = new SqlCommand();
+        //Declarar y Configurar un Nuevo Comando de Datos
+        SqlCommand CMDNuevo = new SqlCommand();
         CMDNuevo.Connection = Global.CN;
-            CMDNuevo.CommandType = CommandType.StoredProcedure;
-            CMDNuevo.CommandText = "USP_Generar_CodEmpleado";
-            //Declarar un Nuevo Parámetro de Salida de Datos
-            SqlParameter ParamCodigo = new SqlParameter();
+        CMDNuevo.CommandType = CommandType.StoredProcedure;
+        CMDNuevo.CommandText = "USP_Generar_CodEmpleado";
+        //Declarar un Nuevo Parámetro de Salida de Datos
+        SqlParameter ParamCodigo = new SqlParameter();
         //Establecer Nombre, Tipo de Dato y Longitud del Parámetro
         ParamCodigo.ParameterName = "@CodEmpleado";
-            ParamCodigo.SqlDbType = SqlDbType.Char;
-            ParamCodigo.Size = 5;
-            //Indicar el Tipo de Parámetro que representa: Salida de Datos (Output)
-            ParamCodigo.Direction = ParameterDirection.Output;
-        
-            //Agregar Parametro al Comando de Datos
-            CMDNuevo.Parameters.Add(ParamCodigo);
+        ParamCodigo.SqlDbType = SqlDbType.Char;
+        ParamCodigo.Size = 5;
+        //Indicar el Tipo de Parámetro que representa: Salida de Datos (Output)
+        ParamCodigo.Direction = ParameterDirection.Output;
+
+        //Agregar Parametro al Comando de Datos
+        CMDNuevo.Parameters.Add(ParamCodigo);
 
         //Ejecutar Comando de Datos
         CMDNuevo.ExecuteNonQuery();
@@ -67,9 +68,10 @@ public partial class Mantenimiento_Empleado : System.Web.UI.Page
 
         //Cerrar Conexión con la Base de Datos
         Global.CN.Close();
-      }
+    }
     //Crear el Método: Guardar (String Tipo_Parámetro_Ejecutar)
-    void Guardar(string Tipo_Transaccion) {
+    void Guardar(string Tipo_Transaccion)
+    {
         //Abrir la Conexión con la Base de Datos
         Global.CN.Open();
         //Crear un Nuevo Comando de Datos
@@ -130,6 +132,7 @@ public partial class Mantenimiento_Empleado : System.Web.UI.Page
         ParamFec_Nac.SqlDbType = SqlDbType.Date;
         ParamFec_Nac.Value = this.txtFecNac.Text.Replace("/", "-");
 
+
         ParamSexo.ParameterName = "@Sexo";
         ParamSexo.SqlDbType = SqlDbType.VarChar;
         ParamSexo.Size = 10;
@@ -138,12 +141,12 @@ public partial class Mantenimiento_Empleado : System.Web.UI.Page
 
         ParamEstado_Civil.ParameterName = "@Estado_Civil";
         ParamEstado_Civil.SqlDbType = SqlDbType.VarChar;
-        ParamEstado_Civil.Size = 10; 
+        ParamEstado_Civil.Size = 10;
         ParamEstado_Civil.Value = this.DDL_EstadoCivil.SelectedValue;
 
-       ParamNro_Hijos.ParameterName = "@Nro_Hijos";
-       ParamNro_Hijos.SqlDbType = SqlDbType.Int;
-       ParamNro_Hijos.Value= this.TXT_NroHijos.Text;
+        ParamNro_Hijos.ParameterName = "@Nro_Hijos";
+        ParamNro_Hijos.SqlDbType = SqlDbType.Int;
+        ParamNro_Hijos.Value = this.TXT_NroHijos.Text;
 
 
         ParamCodPais.ParameterName = "@Nacionalidad";
@@ -208,10 +211,14 @@ public partial class Mantenimiento_Empleado : System.Web.UI.Page
         ParamEmail.Size = 40;
         ParamEmail.Value = this.TXT_Email.Text;
 
-        // Procesar imagen
+
+        ParamFoto.ParameterName = "@Foto";
+        ParamFoto.SqlDbType = SqlDbType.VarBinary;
+
         byte[] imagenBytes = null;
-        if (FileUpload1.HasFile)
+        if (FileUpload1.HasFile && FileUpload1.PostedFile.ContentLength > 0)
         {
+            // 1. SI HAY FOTO: Lee los bytes
             using (var fs = FileUpload1.PostedFile.InputStream)
             {
                 using (var br = new BinaryReader(fs))
@@ -219,11 +226,15 @@ public partial class Mantenimiento_Empleado : System.Web.UI.Page
                     imagenBytes = br.ReadBytes((int)fs.Length);
                 }
             }
-        }
 
-        ParamFoto.ParameterName = "@Foto";
-        ParamFoto.SqlDbType = SqlDbType.VarBinary;
-        ParamFoto.Value = imagenBytes;
+            // Asigna los bytes al parámetro
+            ParamFoto.Value = imagenBytes;
+        }
+        else
+        {
+            // 2. NO HAY FOTO: Asigna el NULL de SQL
+            ParamFoto.Value = DBNull.Value;
+        }
 
         ParamEstado_Empleado.ParameterName = "@Estado_Empleado";
         ParamEstado_Empleado.SqlDbType = SqlDbType.VarChar;
@@ -272,13 +283,33 @@ public partial class Mantenimiento_Empleado : System.Web.UI.Page
         CMDGuardar.Parameters.Add(ParamTipoTransaccion);
         CMDGuardar.Parameters.Add(ParamMensaje);
 
-       
+
         // Ejecutar el comando
         CMDGuardar.ExecuteNonQuery();
 
 
- // Mostrar el mensaje devuelto por el procedimiento
-        Response.Write("<script language='javascript'>alert('" + ParamMensaje.Value.ToString() + "');</script>");
+        // 1. Obtén el mensaje de la base de datos (como ya lo hacías)
+        string mensajeDesdeBD = ParamMensaje.Value.ToString();
+
+        // 2. Decide el 'tipo' de alerta (success, error, warning)
+        string tipoAlerta = "success"; // Tipo por defecto
+
+        // Revisa si el mensaje contiene palabras clave
+        if (mensajeDesdeBD.ToLower().Contains("exito") ||
+            mensajeDesdeBD.ToLower().Contains("guardado") ||
+            mensajeDesdeBD.ToLower().Contains("actualizado"))
+        {
+            tipoAlerta = "success";
+        }
+        else if (mensajeDesdeBD.ToLower().Contains("error") ||
+                 mensajeDesdeBD.ToLower().Contains("no se pudo") ||
+                 mensajeDesdeBD.ToLower().Contains("ya existe"))
+        {
+            tipoAlerta = "error";
+        }
+
+       
+        MostrarMensaje(mensajeDesdeBD, tipoAlerta);
 
         // Liberar recursos
         CMDGuardar.Dispose();
@@ -286,6 +317,193 @@ public partial class Mantenimiento_Empleado : System.Web.UI.Page
         // Cerrar conexión
         Global.CN.Close();
 
+    }
+
+    private bool ValidarFormulario()
+    {
+        // --- 1. VALIDACIÓN DE TEXTBOX (Campos de texto vacíos) ---
+
+        if (string.IsNullOrWhiteSpace(txtNombre.Text))
+        {
+            MostrarMensaje("Debe ingresar el Nombre.", "warning");
+            txtNombre.Focus();
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(txtApellido.Text))
+        {
+            MostrarMensaje("Debe ingresar el Apellido.", "warning");
+            txtApellido.Focus();
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(txtFecNac.Text))
+        {
+            MostrarMensaje("Debe seleccionar la Fecha de Nacimiento.", "warning");
+            txtFecNac.Focus();
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(TXT_NroDocumento.Text))
+        {
+            MostrarMensaje("Debe ingresar el Nro. de Documento.", "warning");
+            TXT_NroDocumento.Focus();
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(TXT_FecContrato.Text))
+        {
+            MostrarMensaje("Debe seleccionar la Fecha de Contrato.", "warning");
+            TXT_FecContrato.Focus();
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(TXT_Direccion.Text))
+        {
+            MostrarMensaje("Debe ingresar la Dirección.", "warning");
+            TXT_Direccion.Focus();
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(TXT_NroHijos.Text))
+        {
+            MostrarMensaje("Debe ingresar el Nro. de Hijos (0 si no tiene).", "warning");
+            TXT_NroHijos.Focus();
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(TXT_Sueldo.Text))
+        {
+            MostrarMensaje("Debe ingresar el Sueldo.", "warning");
+            TXT_Sueldo.Focus();
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(TXT_Telefono.Text))
+        {
+            MostrarMensaje("Debe ingresar el Teléfono.", "warning");
+            TXT_Telefono.Focus();
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(TXT_Email.Text))
+        {
+            MostrarMensaje("Debe ingresar el Email.", "warning");
+            TXT_Email.Focus();
+            return false;
+        }
+
+        // --- 2. VALIDACIÓN DE DROPDOWNLIST (Que no estén en "Seleccione") ---
+
+        // DDLs Estáticos (que tienen Value = "")
+        if (ddlSexo.SelectedValue == "")
+        {
+            MostrarMensaje("Debe seleccionar el Sexo.", "warning");
+            ddlSexo.Focus();
+            return false;
+        }
+
+        if (DDL_EstadoCivil.SelectedValue == "")
+        {
+            MostrarMensaje("Debe seleccionar el Estado Civil.", "warning");
+            DDL_EstadoCivil.Focus();
+            return false;
+        }
+
+        // DDLs Dinámicos (que tienen "<Seleccione>" en Index 0)
+        // Usamos SelectedIndex == 0 porque tus métodos 'Listar_' añaden "<Seleccione>" al inicio.
+
+        if (DDL_Nacionalidad.SelectedIndex == 0)
+        {
+            MostrarMensaje("Debe seleccionar la Nacionalidad.", "warning");
+            DDL_Nacionalidad.Focus();
+            return false;
+        }
+
+        if (DDL_TipoDoc.SelectedIndex == 0)
+        {
+            MostrarMensaje("Debe seleccionar el Tipo de Documento.", "warning");
+            DDL_TipoDoc.Focus();
+            return false;
+        }
+
+        if (DDL_Departamento.SelectedIndex == 0)
+        {
+            MostrarMensaje("Debe seleccionar el Departamento.", "warning");
+            DDL_Departamento.Focus();
+            return false;
+        }
+
+        if (DDL_Provincia.SelectedIndex == 0)
+        {
+            MostrarMensaje("Debe seleccionar la Provincia.", "warning");
+            DDL_Provincia.Focus();
+            return false;
+        }
+
+        if (DDL_Distrito.SelectedIndex == 0)
+        {
+            MostrarMensaje("Debe seleccionar el Distrito.", "warning");
+            DDL_Distrito.Focus();
+            return false;
+        }
+
+        if (DDL_Sucursal.SelectedIndex == 0)
+        {
+            MostrarMensaje("Debe seleccionar la Sucursal.", "warning");
+            DDL_Sucursal.Focus();
+            return false;
+        }
+
+        if (DDL_Area.SelectedIndex == 0)
+        {
+            MostrarMensaje("Debe seleccionar el Área.", "warning");
+            DDL_Area.Focus();
+            return false;
+        }
+
+        if (DDL_Cargo.SelectedIndex == 0)
+        {
+            MostrarMensaje("Debe seleccionar el Cargo.", "warning");
+            DDL_Cargo.Focus();
+            return false;
+        }
+
+        // --- 3. VALIDACIONES ESPECIALES ---
+
+        // Validar que el sueldo sea un número positivo
+        decimal sueldo = 0;
+        if (!decimal.TryParse(TXT_Sueldo.Text, out sueldo) || sueldo <= 0)
+        {
+            MostrarMensaje("El Sueldo debe ser un número mayor a 0.", "warning");
+            TXT_Sueldo.Focus();
+            return false;
+        }
+
+        // Validar formato de Email (simple)
+        if (!TXT_Email.Text.Contains("@") || !TXT_Email.Text.Contains("."))
+        {
+            MostrarMensaje("El formato del Email no es válido.", "warning");
+            TXT_Email.Focus();
+            return false;
+        }
+
+        // (Opcional) Validar que la fecha de término no sea menor a la de contrato
+        if (!string.IsNullOrWhiteSpace(TXT_FecTermino.Text))
+        {
+            DateTime fecContrato = Convert.ToDateTime(TXT_FecContrato.Text);
+            DateTime fecTermino = Convert.ToDateTime(TXT_FecTermino.Text);
+
+            if (fecTermino < fecContrato)
+            {
+                MostrarMensaje("La Fecha de Término no puede ser anterior a la Fecha de Contrato.", "warning");
+                TXT_FecTermino.Focus();
+                return false;
+            }
+        }
+
+        // --- Si pasó todas las validaciones ---
+        return true;
     }
 
     void Listar_Nacionalidad()
@@ -479,9 +697,9 @@ public partial class Mantenimiento_Empleado : System.Web.UI.Page
     }
 
     //Crear el Método: Listar_Departamento()
-void Listar_Departamento()
+    void Listar_Departamento()
     {
-     Global.CN.Open();
+        Global.CN.Open();
 
         SqlDataReader Lector;
 
@@ -495,10 +713,11 @@ void Listar_Departamento()
 
         this.DDL_Departamento.Items.Clear();
         this.DDL_Departamento.Items.Add("<Seleccione>");
-        while (Lector.Read()) { 
-        this.DDL_Departamento.Items.Add(Lector.GetValue(0).ToString());
+        while (Lector.Read())
+        {
+            this.DDL_Departamento.Items.Add(Lector.GetValue(0).ToString());
 
-    } 
+        }
         CMDListar_Dep.Dispose();
         Global.CN.Close();
     }
@@ -509,8 +728,8 @@ void Listar_Departamento()
 
         SqlDataReader Lector;
         SqlCommand CMDListar_Provincia = new SqlCommand();
-         //Conectar y Configurar el Comando de Datos
-         CMDListar_Provincia.Connection = Global.CN;
+        //Conectar y Configurar el Comando de Datos
+        CMDListar_Provincia.Connection = Global.CN;
         CMDListar_Provincia.CommandType = CommandType.StoredProcedure;
         CMDListar_Provincia.CommandText = "USP_Listar_Provincia";
         //Agregar Parámetro de Datos
@@ -521,23 +740,23 @@ void Listar_Departamento()
         this.DDL_Provincia.Items.Clear();
         //Agregar un Primer Elemento al Control: DDL_Provincia
         this.DDL_Provincia.Items.Add("<Seleccione>");
-        
+
         //Leer Datos
-      
+
         while (Lector.Read())
-  
+
         {
 
-        //Agregar Datos al (/ Site
-        this.DDL_Provincia.Items.Add(Lector.GetValue(0).ToString());
+            //Agregar Datos al (/ Site
+            this.DDL_Provincia.Items.Add(Lector.GetValue(0).ToString());
         }
 
         //Liberar Recursos
-      
+
         CMDListar_Provincia.Dispose();
         //Cerrar Conexión con la Base de Datos
         Global.CN.Close();
-}
+    }
 
     void Listar_Distrito(String Provincia)
     {
@@ -578,12 +797,15 @@ void Listar_Departamento()
 
     protected void Page_Load(object sender, EventArgs e)
     {
+
+     
         if (IsPostBack == false)
         {
             //Evitar el recordatorio de datos en el control: Webform
             this.Form.Attributes.Add("autocomplete", "off");
 
             //listar metodo
+
             Listar_Nacionalidad();
             Listar_Sucursal();
             Listar_Area();
@@ -595,7 +817,8 @@ void Listar_Departamento()
             this.DDL_Provincia.Items.Add("<Seleccione>");
 
             //Evaluar si la Variable de tipo Session "MantenimientoEmpleado_CodEmpleado" es diferente de vacio
-            if (Session["MantenimientoEmpleado_CodEmpleado"].ToString() != "")
+            if (Session["MantenimientoEmpleado_CodEmpleado"] != null &&
+              Session["MantenimientoEmpleado_CodEmpleado"].ToString() != "")
             {
                 Session["MantenimientoEmpleado_Tipo_Transaccion"] = "ACTUALIZAR";
                 //Invocar al Método: Cargar_Datos()
@@ -629,7 +852,7 @@ void Listar_Departamento()
         this.Listar_Procincia(this.DDL_Departamento.Text.ToString());
 
         //
-        this.DDL_Provincia_SelectedIndexChanged(null,null);
+        this.DDL_Provincia_SelectedIndexChanged(null, null);
 
         //Colocar el foco de atención en el control: DDL_Provincia
         this.DDL_Provincia.Focus();
@@ -648,28 +871,83 @@ void Listar_Departamento()
     protected void BTN_Nuevo_Click(object sender, EventArgs e)
     {
         Nuevo();
-
+        
         //Asignar Valor a la variable:
         Session["MantenimientoEmpleado_Tipo_Transaccion"] = "GUARDAR";
 
     }
     protected void BTN_Registrar_Click(object sender, EventArgs e)
     {
-        //Crear Controlador de Error
-        try
+        if (ValidarFormulario() == true)
         {
+
+            
+
+
             //Invocar al Método: Guardar()
             this.Guardar(Session["MantenimientoEmpleado_Tipo_Transaccion"].ToString());
-        }
-        catch (Exception Error)
-        {
-         
-
+            HttpContext.Current.ApplicationInstance.CompleteRequest();
+            Limpiar();
+            Nuevo();
+            Listar_Empleados();
         }
     }
 
-    
 
+    private void Limpiar()
+    {
+        // --- 1. Limpiar todos los TextBox ---
+        TXT_CodEmpleado.Text = string.Empty; // Opcional: podrías poner un código nuevo aquí
+        txtNombre.Text = string.Empty;
+        txtApellido.Text = string.Empty;
+        txtFecNac.Text = string.Empty;
+        TXT_NroDocumento.Text = string.Empty;
+        TXT_FecContrato.Text = string.Empty;
+        TXT_FecTermino.Text = string.Empty;
+        TXT_Direccion.Text = string.Empty;
+        TXT_NroHijos.Text = string.Empty;
+        TXT_Sueldo.Text = string.Empty;
+        TXT_Telefono.Text = string.Empty;
+        TXT_Email.Text = string.Empty;
+        TXT_ObsEmpleado.Text = string.Empty;
+        Session["MantenimientoEmpleado_Tipo_Transaccion"] = "GUARDAR";
+
+        // --- 2. Reiniciar todos los DropDownList ---
+        // Usamos SelectedIndex = 0 porque tus métodos 'Listar_' 
+        // añaden "<Seleccione>" en la primera posición.
+
+        // DDLs Estáticos
+        ddlSexo.SelectedIndex = 0;
+        DDL_EstadoCivil.SelectedIndex = 0;
+        DDL_Estado.SelectedIndex = 0; // Esto seleccionará "Activo"
+
+        // DDLs cargados desde la BD (los que están en Page_Load)
+        DDL_Nacionalidad.SelectedIndex = 0;
+        DDL_Sucursal.SelectedIndex = 0;
+        DDL_Area.SelectedIndex = 0;
+        DDL_Cargo.SelectedIndex = 0;
+        DDL_Departamento.SelectedIndex = 0;
+
+        // DDLs en cascada (que están vacíos al inicio)
+        // Los limpiamos y añadimos el item por defecto
+        DDL_TipoDoc.Items.Clear();
+        DDL_TipoDoc.Items.Add(new ListItem("<Seleccione>", ""));
+
+        DDL_Provincia.Items.Clear();
+        DDL_Provincia.Items.Add(new ListItem("<Seleccione>", ""));
+
+        DDL_Distrito.Items.Clear();
+        DDL_Distrito.Items.Add(new ListItem("<Seleccione>", ""));
+
+        // --- 3. Reiniciar la Imagen ---
+        IMG_Calzado.ImageUrl = "~/IMG/LOGO.jpeg";
+
+        // --- 4. Reiniciar Botones y Foco ---
+        BTN_Registrar.Text = "Registrar"; // Cambia el texto por si estaba en "Actualizar"
+
+        // Poner el foco en el primer campo editable
+        txtNombre.Focus();
+    }
 
     protected void GV_Empleados_RowCommand(object source, GridViewCommandEventArgs e)
     {
@@ -685,6 +963,8 @@ void Listar_Departamento()
 
             // Cargar todos los datos del empleado
             CargarEmpleado(codEmpleado);
+
+            Session["MantenimientoEmpleado_Tipo_Transaccion"] = "ACTUALIZAR";
         }
     }
 
@@ -710,7 +990,7 @@ void Listar_Departamento()
                         DDL_EstadoCivil.SelectedValue = dr["Estado_Civil"].ToString();
                         TXT_NroHijos.Text = dr["Nro_Hijos"].ToString();
                         DDL_Nacionalidad.SelectedValue = dr["Nacionalidad"].ToString();
-                            Listar_Doc_Identidad(DDL_Nacionalidad.SelectedValue);
+                        Listar_Doc_Identidad(DDL_Nacionalidad.SelectedValue);
                         DDL_TipoDoc.SelectedValue = dr["Documento_Identidad"].ToString();
                         TXT_NroDocumento.Text = dr["NroDoc_Identidad"].ToString();
                         TXT_FecContrato.Text = Convert.ToDateTime(dr["Fec_Contrato"]).ToString("yyyy-MM-dd");
@@ -746,6 +1026,9 @@ void Listar_Departamento()
                         {
                             IMG_Calzado.ImageUrl = "~/IMG/LOGO.jpeg";
                         }
+
+                        BTN_Registrar.Text = "Actualizar";
+                        Session["MantenimientoEmpleado_Tipo_Transaccion"] = "ACTUALIZAR";
                     }
                 }
             }

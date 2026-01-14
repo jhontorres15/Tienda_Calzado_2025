@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ZXing;
@@ -17,6 +18,11 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
 {
     //Declarar una variable que haga referencia al archivo:Global.asax
     ASP.global_asax Global = new ASP.global_asax();
+
+
+    //Declarar una variable que haga referencia al archivo:  LOGIC
+    ProductoLOGIC ProductoLOGIC = new ProductoLOGIC();
+    AlmacenLOGIC AlmacenLOGIC = new AlmacenLOGIC();
 
     //Global Global = new Global();
 
@@ -35,7 +41,7 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
         this.DDL_Color.SelectedIndex = 0;
         this.DDL_Estado.SelectedIndex = 0;
         this.DDL_Marca.SelectedIndex = 0;
-        this.DDL_Modelo.SelectedIndex = 0;
+   //     this.DDL_Modelo.SelectedIndex = 0;
         this.DDL_Talla.SelectedIndex = 0;
 
         // Reiniciar la imagen y el mensaje del FileUpload
@@ -49,61 +55,39 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
     //CREAR METODO LISTAR CATEGORIAS
     public void Listar_Categorias()
     {
-        //Abrir la Corjexion con la Base de Datos
-        Global.CN.Open();
-        //Crear un Lector de Datos
-        SqlDataReader Lector;
-        //Crear un Comando de Datos
-        SqlCommand CMDCategoria = new SqlCommand();
-        //Conectar Comando de Datos con la Base de Datos
-        CMDCategoria.Connection = Global.CN;
-        //Configurar el Comando de Datos
-        CMDCategoria.CommandType = System.Data.CommandType.StoredProcedure;
-        CMDCategoria.CommandText = "USP_Listar_Categorias";
-        //Ejecutar el Procedimiento Almacenado
-        Lector = CMDCategoria.ExecuteReader();
-        //Limpiar los Valores del Control: DDL_Categoria
-        this.DDL_Categoria.Items.Clear();
-        //Agregar un Primer Elemento al Control: DDL_Categoria
-        this.DDL_Categoria.Items.Add(" -- Seleccione-");
-        //Leer los Registros del Lector de Datos
-        while (Lector.Read())
+
+        DDL_Categoria.Items.Clear();
+        DDL_Categoria.Items.Add("-- Seleccione --");
+
+        var lista = ProductoLOGIC.ObtenerCategorias();
+
+        foreach (string item in lista)
         {
-            //Agregar los Datos al Control: DDL_Categoria
-            this.DDL_Categoria.Items.Add(Lector.GetValue(1).ToString());
+            DDL_Categoria.Items.Add(item);
         }
-
-        CMDCategoria.Dispose();
-
-        Global.CN.Close();
     }
-        
+
+ 
 
     public void Listar_Tallas()
     {
-        Global.CN.Open();
-        SqlDataReader Lector;
-        SqlCommand CMDTalla = new SqlCommand();
-        CMDTalla.Connection = Global.CN;
-        CMDTalla.CommandType = CommandType.StoredProcedure;
-        CMDTalla.CommandText = "USP_Listar_Tallas";
-
-        Lector = CMDTalla.ExecuteReader();
-
+        // Limpiar el control
         DDL_Talla.Items.Clear();
         DDL_Talla.Items.Add("--Seleccione--");
 
-        while (Lector.Read())
+        // Llamar a la capa Lógica
+        var lista = ProductoLOGIC.ObtenerTallas();
+
+        foreach (string item in lista)
         {
-            // Text = Talla, Value = CodTalla
-            DDL_Talla.Items.Add(Lector.GetValue(1).ToString());
+            // Agregar los nombres/valores de las tallas
+            DDL_Talla.Items.Add(item);
         }
 
-        CMDTalla.Dispose();
-        Global.CN.Close();
     }
 
-    //CREAR METODO LISTAR MARCAS
+
+
     public void Listar_Marcas()
     {
         Global.CN.Open();
@@ -127,6 +111,24 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
         CMDMarca.Dispose();
         Global.CN.Close();
     }
+
+
+    protected void DDL_Marca_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DDL_Marca.SelectedIndex > 0)
+        {
+            // Aquí usamos el Value (CodMarca) para filtrar
+            Listar_Modelos(DDL_Marca.SelectedItem.Text);
+        }
+        else
+        {
+            DDL_Modelo.Items.Clear();
+            DDL_Modelo.Items.Add("--Seleccione--");
+        }
+    }
+
+
+
 
     public void Listar_Modelos(string Marca)
     {
@@ -165,6 +167,8 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
         this.DDL_Estado.Items.Add("Disponible");
         this.DDL_Estado.Items.Add("Agotado");
         this.DDL_Estado.Items.Add("Retirado");
+
+ 
     }
 
     public void Listar_Colores()
@@ -184,138 +188,41 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
         this.DDL_Color.Items.Add("Amarillo");
         this.DDL_Color.Items.Add("Gris");
         this.DDL_Color.Items.Add("Marrón");
+        this.DDL_Color.Items.Add("Rosado");
+
+
+
     }
+
+
 
 
     public void Nuevo()
     {
-        //Abrir conexion con la base de datos 
-        Global.CN.Open();
-
-        //Crer un nuevo parametro de datos
-        SqlParameter ParamCodigo = new SqlParameter();
-
-        //Indicar el tipode Parametro de datos
-        ParamCodigo.Direction = ParameterDirection.Output;
-
-        //Crear nuevo comandod e datos
-        SqlCommand CMDNuevo = new SqlCommand();
-
-        //Configurar el comandod de datos 
-        CMDNuevo.Connection = Global.CN;
-        CMDNuevo.CommandType = CommandType.StoredProcedure;
-        CMDNuevo.CommandText = "USP_Generar_CodProducto";
-
-        //configurar el parametro de datos 
-        ParamCodigo.ParameterName = "@CodProducto";
-        ParamCodigo.SqlDbType = SqlDbType.Char;
-        ParamCodigo.Size = 7;
-
-        //agregar el parametro al comando de datos 
-        CMDNuevo.Parameters.Add(ParamCodigo);
-
-        //ejecutar el comando 
-        CMDNuevo.ExecuteNonQuery();
-
-        //capturar el valor del parametro de datos 
-        this.Lb_CodProducto.Text = ParamCodigo.Value.ToString();
-
-        //liberar recursos 
-        CMDNuevo.Dispose();
-
-        //Cerrar la conexion con la base de datos 
-        Global.CN.Close();
+        string codigo = ProductoLOGIC.ObtenerNuevoCodigo();
+        Lb_CodProducto.Text = codigo;
     }
 
-    //Crear el Método: Guardar()
+    protected void GV_Productos_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        // 1. Asigna el nuevo índice de página al GridView
+        GV_Productos.PageIndex = e.NewPageIndex;
+
+        // 2. Vuelve a cargar los datos del GridView
+        Listar_Productos();
+    }
+
+
     public void Guardar(string Tipo_Transaccion)
     {
 
-        //Abrir la Conexión con la Base de Datos
-        Global.CN.Open();
+        // Preparar cadenas numéricas (el LOGIC/DAO se encarga del TryParse seguro)
+        string textoMenor = this.TXT_PrecVentaMenor.Text.Trim().Replace(",", ".");
+        string textoMayor = this.TXT_PrecVentaMayor.Text.Trim().Replace(",", ".");
 
-        //Crear Parámetros
-        SqlParameter ParamCodProducto = new SqlParameter();
-        SqlParameter ParamProducto = new SqlParameter();
-        SqlParameter ParamDescripcion_Producto = new SqlParameter();
-        SqlParameter ParamTalla = new SqlParameter();
-        SqlParameter ParamModelo = new SqlParameter();
-        SqlParameter ParamColor = new SqlParameter();
-        SqlParameter ParamPrec_Venta_Menor = new SqlParameter();
-        SqlParameter ParamPrec_Venta_Mayor = new SqlParameter();
-        SqlParameter ParamStock_General = new SqlParameter();
-        SqlParameter ParamCategoria = new SqlParameter();
-        SqlParameter ParamFoto = new SqlParameter();
-        SqlParameter ParamEstado_Producto = new SqlParameter();
-        SqlParameter ParamTipoTransaccion = new SqlParameter();
-        SqlParameter ParamMensaje = new SqlParameter();
-
-        //Indicar el Tipo de Parámetro de Datos
-        ParamMensaje.Direction = ParameterDirection.Output;
-
-        //Crear un Nuevo Comando de Datos
-        SqlCommand CMDGuardar = new SqlCommand();
-
-        //Configurar el Comando de Datos
-        CMDGuardar.Connection = Global.CN;
-        CMDGuardar.CommandType = CommandType.StoredProcedure;
-        CMDGuardar.CommandText = "USP_Mantenimiento_Producto";
-
-
-
-        //Configurar los Parámetros de Datos
-        ParamCodProducto.ParameterName = "@CodProducto";
-        ParamCodProducto.SqlDbType = SqlDbType.Char;
-        ParamCodProducto.Size = 7;
-        ParamCodProducto.Value = this.Lb_CodProducto.Text.ToUpper();
-
-        ParamProducto.ParameterName = "@Producto";
-        ParamProducto.SqlDbType = SqlDbType.VarChar;
-        ParamProducto.Size = 20;
-        ParamProducto.Value = this.TXT_Producto.Text;
-
-        ParamDescripcion_Producto.ParameterName = "@Descripcion_Producto";
-        ParamDescripcion_Producto.SqlDbType = SqlDbType.VarChar;
-        ParamDescripcion_Producto.Size = 60;
-        ParamDescripcion_Producto.Value = this.TXTDescripcion_Producto.Text;
-
-        ParamTalla.ParameterName = "@Talla";
-        ParamTalla.SqlDbType = SqlDbType.Char;
-        ParamTalla.Size = 5;
-        ParamTalla.Value = this.DDL_Talla.SelectedValue;
-
-        ParamModelo.ParameterName = "@Modelo";
-        ParamModelo.SqlDbType = SqlDbType.VarChar;
-        ParamModelo.Size = 15;
-        ParamModelo.Value = this.DDL_Modelo.SelectedValue;
-
-        ParamColor.ParameterName = "@Color";
-        ParamColor.SqlDbType = SqlDbType.VarChar;
-        ParamColor.Size = 20;
-        ParamColor.Value = this.DDL_Color.SelectedValue;
-
-
-
-        ParamPrec_Venta_Menor.ParameterName = "@Prec_Venta_Menor";
-        ParamPrec_Venta_Menor.SqlDbType = SqlDbType.Decimal;
-        ParamPrec_Venta_Menor.Value = Convert.ToDecimal(this.TXT_PrecVentaMenor.Text);
-
-        ParamPrec_Venta_Mayor.ParameterName = "@Prec_Venta_Mayor";
-        ParamPrec_Venta_Mayor.SqlDbType = SqlDbType.Decimal;
-        ParamPrec_Venta_Mayor.Value = Convert.ToDecimal(this.TXT_PrecVentaMayor.Text);
-
-        ParamStock_General.ParameterName = "@Stock_General";
-        ParamStock_General.SqlDbType = SqlDbType.Int;
-        ParamStock_General.Value = Convert.ToInt32(this.TXT_Stock.Text);
-
-        ParamCategoria.ParameterName = "@Categoria";
-        ParamCategoria.SqlDbType = SqlDbType.VarChar;
-        ParamCategoria.Size = 40;
-        ParamCategoria.Value = this.DDL_Categoria.SelectedValue;
-
+        // Preparar bytes de la foto
         byte[] imagenBytes = null;
-
-        if (FileUpload1.HasFile)  // FileUpload1 es tu control de subida de archivos
+        if (FileUpload1.HasFile)
         {
             using (var fs = FileUpload1.PostedFile.InputStream)
             {
@@ -326,60 +233,54 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
             }
         }
 
-        ParamFoto.ParameterName = "@Foto";
-        ParamFoto.SqlDbType = SqlDbType.VarBinary;
-        ParamFoto.Value = imagenBytes;
-
-        ParamEstado_Producto.ParameterName = "@Estado_Producto";
-        ParamEstado_Producto.SqlDbType = SqlDbType.VarChar;
-        ParamEstado_Producto.Size = 20;
-        ParamEstado_Producto.Value = this.DDL_Estado.SelectedValue;
-
-        ParamTipoTransaccion.ParameterName = "@Tipo_Transaccion";
-        ParamTipoTransaccion.SqlDbType = SqlDbType.VarChar;
-        ParamTipoTransaccion.Size = 10;
-        ParamTipoTransaccion.Value = Tipo_Transaccion;
-
-        ParamMensaje.ParameterName = "@Mensaje";
-        ParamMensaje.SqlDbType = SqlDbType.VarChar;
-        ParamMensaje.Size = 255;
 
 
-        //Agregar Parámetros al Comando de Datos
-        CMDGuardar.Parameters.Add(ParamCodProducto);
-        CMDGuardar.Parameters.Add(ParamProducto);
-        CMDGuardar.Parameters.Add(ParamDescripcion_Producto);
-        CMDGuardar.Parameters.Add(ParamTalla);
-        CMDGuardar.Parameters.Add(ParamModelo);
-        CMDGuardar.Parameters.Add(ParamColor);
-        CMDGuardar.Parameters.Add(ParamPrec_Venta_Menor);
-        CMDGuardar.Parameters.Add(ParamPrec_Venta_Mayor);
-        CMDGuardar.Parameters.Add(ParamStock_General);
-        CMDGuardar.Parameters.Add(ParamCategoria);
-        CMDGuardar.Parameters.Add(ParamFoto);
-        CMDGuardar.Parameters.Add(ParamEstado_Producto);
-        CMDGuardar.Parameters.Add(ParamTipoTransaccion);
-        CMDGuardar.Parameters.Add(ParamMensaje);
+        // --- 2. LLAMADA A LA CAPA LÓGICA (Ejecución del Mantenimiento) ---
 
-        //Ejecutar el comadno de Datos
-        CMDGuardar.ExecuteNonQuery();
+        string mensajeResultado = ProductoLOGIC.GuardarProducto(
+            // Cadenas de Controles:
+            this.Lb_CodProducto.Text.Trim(),
+            this.TXT_Producto.Text,
+            this.TXTDescripcion_Producto.Text,
+            this.DDL_Talla.SelectedValue,
+            this.DDL_Modelo.SelectedValue,
+            this.DDL_Color.SelectedValue,
 
-        //capturar ek parametro de datos: ParamMensaje
-        //Mostrar mensaje de alerta 
-        Response.Write("<script language='javascript'>alert('" + ParamMensaje.Value.ToString() + "'); </script>");
+            // Cadenas Numéricas Limpias:
+            textoMenor,
+            textoMayor,
+            this.TXT_Stock.Text,
 
-        //guardar 
-        CMDGuardar.Dispose();
+            // Datos de Selección y Binarios:
+            this.DDL_Categoria.SelectedValue,
+            imagenBytes,
+            this.DDL_Estado.SelectedValue,
+            Tipo_Transaccion
+        );
 
-        //Cerrar Conexión con la Base de Datos
-        Global.CN.Close();
+        // --- 3. RESPUESTA AL USUARIO ---
 
+        // Determinar el tipo de mensaje a mostrar (ej. "success", "error", "warning")
+        // Por defecto, usamos "info" si no sabemos si es éxito o error.
+        string tipoMensaje = "success";
+
+        // 🚀 Llamar al método MostrarMensaje para usar SweetAlert2 🚀
+        MostrarMensaje(mensajeResultado, tipoMensaje);
+
+        Session["MantenimientoProductos_CodProducto"] = "";
+        HttpContext.Current.ApplicationInstance.CompleteRequest();
     }
+
+  
+
+   
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        this.Listar_Productos();
+
         //Evaluar si la Págian web ha sido Recargada(Retrasada)
-        if (IsPostBack == false)
+        if (!IsPostBack)
         {
             //Evitar el Recordatorio de Datos en formualrio Web
             this.Form.Attributes.Add("autocomplete", "of");
@@ -390,70 +291,102 @@ public partial class Mantenimiento_Productos : System.Web.UI.Page
             this.listarEstado();
            
             this.Listar_Marcas();
+       
             this.Listar_Tallas();
             this.Listar_Colores();
+            this.Listar_Categorias();
+          
+           
+         
 
+           
+                // ... (Tu código de carga de DropDownLists) ...
 
-            this.BTN_Nuevo_Click(null, null);
+                // --- LÓGICA DE PRODUCTO PRINCIPAL ---
+                string codProductoSession = (Session["MantenimientoProductos_CodProducto"] != null) ? Session["MantenimientoProductos_CodProducto"].ToString() : "";
 
-            if (Session["MantenimientoProductos_CodProducto"].ToString() !="")
-            {
-                this.cargarDatos();
+                if (codProductoSession != "")
+                {
+                    // MODO EDICIÓN
+                    // this.cargarDatos(); // Cargar datos del producto
+                    Session["MantenimientoProducto_Tipo_Transaccion"] = "ACTUALIZAR";
+                }
+                else
+                {
+                    // 💡 MODO NUEVO: Inicialización directa 💡
+                    this.limpiar();
+                    this.Nuevo(); // Genera el CodProducto
+                    Session["MantenimientoProducto_Tipo_Transaccion"] = "GUARDAR";
+                }
 
-                Session["MantenimientoProducto_Tipo_Transaccion"] = "ACTUALIZAR";
-            }
-            else
-            {
-                this.BTN_Nuevo_Click(null, null);
-            }
+ 
+            
+
         }
     }
 
     protected void BTN_Nuevo_Click(object sender, EventArgs e)
     {
-        //invocar el metodo limpiar
+        // 1. Reiniciar la sesión de código para forzar un nuevo registro
+        Session["MantenimientoProductos_CodProducto"] = "";
+
+        // 2. Limpiar la UI
         this.limpiar();
 
-        //invocar el metodo nuevo
+        // 3. Generar nuevo código
         this.Nuevo();
 
-        //cambiar el boto por actualizar 
+        // 4. Establecer el modo
         Session["MantenimientoProducto_Tipo_Transaccion"] = "GUARDAR";
+
     }
 
-
-
-
-    protected void DDL_Marca_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (DDL_Marca.SelectedIndex > 0)
-        {
-            // Aquí usamos el Value (CodMarca) para filtrar
-            Listar_Modelos(DDL_Marca.SelectedItem.Text);
-        }
-        else
-        {
-            DDL_Modelo.Items.Clear();
-            DDL_Modelo.Items.Add("--Seleccione--");
-        }
-    }
+   
 
     protected void BTN_Guardar_Click(object sender, EventArgs e)
     {
+
+        // Validar datos del lado del servidor
+        if (string.IsNullOrEmpty(Lb_CodProducto.Text) )
+        {
+            MostrarMensaje("No hay codigo registrado.", "warning");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(TXTDescripcion_Producto.Text))
+        {
+            MostrarMensaje("Descripcion_Producto son obligatorios.", "warning");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(TXT_Stock.Text))
+        {
+            MostrarMensaje("La fecha de nacimiento es obligatoria.", "warning");
+            return;
+        }
+
+        if (DDL_Modelo.SelectedValue == "")
+        {
+            MostrarMensaje("Debe seleccionar el sexo.", "warning");
+            return;
+        }
         //iNVOCAR EL METODO GUARDAR
         this.Guardar(Session["MantenimientoProducto_Tipo_Transaccion"].ToString());
+       
+       Listar_Productos();
+        Session["MantenimientoProductos_CodProducto"] = "";
+        limpiar();
+        Nuevo();
     }
 
-
-    protected void BTN_Reporte_Click(object sender, EventArgs e)
+    private void MostrarMensaje(string mensaje, string tipo)
     {
-        //Redireccionar hacia el formulario reporte productos
-        Response.Redirect("Reporte_Productos.aspx");
+        ScriptManager.RegisterStartupScript(this, GetType(), "Mensaje",
+         $"Swal.fire({{ icon: '{tipo}', title: 'Información', text: '{mensaje}', confirmButtonText: 'Aceptar' }});", true);
     }
 
 
-
-protected void btnImprimirQR_Click(object sender, EventArgs e)
+    protected void btnImprimirQR_Click(object sender, EventArgs e)
 {
     string codProducto = Lb_CodProducto.Text.Trim();
     if (string.IsNullOrEmpty(codProducto))
@@ -555,25 +488,72 @@ protected void btnImprimirQR_Click(object sender, EventArgs e)
         }
     }
 
+
+    protected void btnBuscar_Click(object sender, EventArgs e)
+    {
+        string filtro = TXT_BusquedaProducto.Text.Trim();
+
+        DataTable dt = new DataTable();
+        SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM V_Listar_Productos WHERE Producto LIKE @filtro OR CodProducto LIKE @filtro", Global.CN);
+        da.SelectCommand.Parameters.AddWithValue("@filtro", "%" + filtro + "%");
+        da.Fill(dt);
+
+        GV_Productos.DataSource = dt;
+        GV_Productos.DataBind();
+    }
+
+    protected void GV_Productos_RowCommand(object source, GridViewCommandEventArgs e)
+    {
+        //Evaluar si el nombre del boton es : BTN_Ver
+        if (e.CommandName == "BTN_Ver")
+        {
+            //obtener el indice del comandos seleccionado
+            int indice = Convert.ToInt32(e.CommandArgument);
+
+            // Acceso a datos de texto
+            Session["MantenimientoProductos_CodProducto"] = this.GV_Productos.DataKeys[indice]["CodProducto"].ToString();
+            Session["MantenimientoProductos_Producto"] = this.GV_Productos.DataKeys[indice]["Producto"].ToString();
+            Session["MantenimientoProductos_Descripcion"] = this.GV_Productos.DataKeys[indice]["Descripcion_Producto"].ToString();
+            Session["MantenimientoProductos_Categoria"] = this.GV_Productos.DataKeys[indice]["Categoria"].ToString();
+            Session["MantenimientoProductos_Marca"] = this.GV_Productos.DataKeys[indice]["Marca"].ToString();
+            Session["MantenimientoProductos_Modelo"] = this.GV_Productos.DataKeys[indice]["Modelo"].ToString();
+            Session["MantenimientoProductos_Talla"] = this.GV_Productos.DataKeys[indice]["Talla"].ToString();
+            Session["MantenimientoProductos_Color"] = this.GV_Productos.DataKeys[indice]["Color"].ToString();
+            Session["MantenimientoProductos_Prec_Venta_Menor"] = this.GV_Productos.DataKeys[indice]["Prec_Venta_Menor"].ToString();
+            Session["MantenimientoProductos_Prec_Venta_Mayor"] = this.GV_Productos.DataKeys[indice]["Prec_Venta_Mayor"].ToString();
+            Session["MantenimientoProductos_Stock"] = this.GV_Productos.DataKeys[indice]["Stock_General"].ToString();
+            Session["MantenimientoProductos_Estado"] = this.GV_Productos.DataKeys[indice]["Estado_Producto"].ToString();
+
+            Session["MantenimientoProductos_Foto"] = this.GV_Productos.DataKeys[indice]["Foto"];
+
+            Session["MantenimientoProducto_Tipo_Transaccion"] = "ACTUALIZAR";
+
+            cargarDatos();
+
+
+        }
+    }
+
     public void cargarDatos()
     {
- 
+
         // Llenar controles desde sesión
         this.Lb_CodProducto.Text = Session["MantenimientoProductos_CodProducto"].ToString();
         this.TXT_Producto.Text = Session["MantenimientoProductos_Producto"].ToString();
         this.TXTDescripcion_Producto.Text = Session["MantenimientoProductos_Descripcion"].ToString();
-        this.DDL_Categoria.Text = Session["MantenimientoProductos_Categoria"]?.ToString();
+
+        this.DDL_Categoria.SelectedValue = Session["MantenimientoProductos_Categoria"]?.ToString();
         Listar_Marcas();
-        this.DDL_Marca.Text = Session["MantenimientoProductos_Marca"].ToString();
+        this.DDL_Marca.SelectedValue = Session["MantenimientoProductos_Marca"].ToString();
         Listar_Modelos(DDL_Marca.SelectedValue);
-        this.DDL_Modelo.Text = Session["MantenimientoProductos_Modelo"].ToString();
+        this.DDL_Modelo.SelectedValue = Session["MantenimientoProductos_Modelo"].ToString();
         this.DDL_Talla.Text = Session["MantenimientoProductos_Talla"].ToString();
         this.DDL_Color.Text = Session["MantenimientoProductos_Color"].ToString();
         this.TXT_PrecVentaMenor.Text = Session["MantenimientoProductos_Prec_Venta_Menor"].ToString();
         this.TXT_PrecVentaMayor.Text = Session["MantenimientoProductos_Prec_Venta_Mayor"].ToString();
         this.TXT_Stock.Text = Session["MantenimientoProductos_Stock"].ToString();
         this.DDL_Estado.Text = Session["MantenimientoProductos_Estado"].ToString();
-        
+
         //byte[] fotoObj = (byte[])Session["MantenimientoProductos_Foto"];
 
         object fotoObj = Session["MantenimientoProductos_Foto"];
@@ -587,8 +567,27 @@ protected void btnImprimirQR_Click(object sender, EventArgs e)
             IMG_Calzado.ImageUrl = "/IMG/LOGO.jpeg"; // Imagen por defecto
         }
 
+    }
 
+    public void Listar_Productos()
+    {
+        //Abrir Conexión con la Base de Datos
+        Global.CN.Open();
+        //Crear un Nuevo DataTable
+        DataTable DT = new DataTable();
+        //Crear un Nuevo Adaptador de Datos
+        SqlDataAdapter DA = new SqlDataAdapter("SELECT * FROM V_Listar_Productos", Global.CN);
+        //Cargar Datos del Adaptador de Datos a un DataTable
+        DA.Fill(DT);
+        //Cargar Datos del DataTable en el Control: GV_Articulos
+        GV_Productos.DataSource = DT;
+        GV_Productos.DataBind();
 
+        //Liberar Recursos del Adaptador de Datos
+        DA.Dispose();
+        //Cerrar Conexión con la Base de Datos
+
+        Global.CN.Close();
     }
 
 

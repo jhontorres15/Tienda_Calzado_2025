@@ -11,14 +11,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Enlace al CSS -->
     <link href="Estilos/Estilo_Menu.css" rel="stylesheet" />
+     
 
     <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+
 </head>
 
 <body>
+
     <form id="form1" runat="server">
         <div class="app">
 
@@ -33,7 +36,7 @@
                             <a href="#"><i class="fa fa-users"></i><span> Empleados</span></a>
                             <ul class="nav-flyout">
                                 <li><a href="Mantenimiento_Empleado.aspx"><i class="ion-person-add"></i> Registrar</a></li>
-                                <li><a href="ListarEmpleados.aspx"><i class="ion-ios-list"></i> Listar</a></li>
+                                <li><a href="UsuarioEmpleado.aspx"><i class="ion-ios-list"></i>Usuarios Empleados</a></li>
                             </ul>
                         </li>
 
@@ -41,8 +44,7 @@
                         <li>
                             <a href="#"><i class="fa fa-address-book"></i><span> Clientes</span></a>
                             <ul class="nav-flyout">
-                                <li><a href="Cliente.aspx"><i class="ion-person-add"></i> Registrar</a></li>
-                                <li><a href="ListarClientes.aspx"><i class="ion-ios-list"></i> Listar</a></li>
+                                <li><a href="MantenimientoCliente.aspx"><i class="ion-person-add"></i> Registrar Cliente</a></li>
                                 <li><a href="HistorialCompras.aspx"><i class="ion-ios-clock-outline"></i> Historial</a></li>
                             </ul>
                         </li>
@@ -51,22 +53,37 @@
                         <li>
                             <a href="#"><i class="fa fa-shopping-cart"></i><span> Ventas</span></a>
                             <ul class="nav-flyout">
-                                <li><a href="Pedido.aspx"><i class="ion-compose"></i> Registrar</a></li>
-                                <li><a href="ConsultarVentas.aspx"><i class="ion-search"></i> Consultar</a></li>
-                                <li><a href="Proforma.aspx"><i class="ion-document-text"></i> Proformas</a></li>
-                                <li><a href="ReporteVentas.aspx"><i class="ion-stats-bars"></i> Reporte</a></li>
+                                <li><a href="Mantenimiento_Proforma.aspx"><i class="ion-document-text"></i> Proforma</a></li>
+                                <li><a href="Pedido.aspx"><i class="ion-compose"></i>Orden de Pedido</a></li>
+                                <li><a href="Facturacion_Venta.aspx"><i class="ion-document-text"></i>Facturación</a></li>
+                                <li><a href="Registro_Pago.aspx"><i class="bi bi-cash-stack"></i>Registrar Pago</a></li>
                             </ul>
                         </li>
+
+                          <!-- COMPRAS -->
+                        <li>
+                            <a href="#"><i class="fa fa-shopping-bag"></i><span> Compras</span></a>
+                            <ul class="nav-flyout">
+                                   <li><a href="Empresa_Proveedor.aspx"><i class="ion-briefcase"></i> Empresas</a></li>
+                                  <li><a href="Proveedor.aspx"><i class="ion-briefcase"></i> Proveedores</a></li>
+                                <li><a href="Cotizacion.aspx"><i class="fa fa-file-signature"></i> Cotización</a></li>
+                                <li><a href="Orden_Compra.aspx"><i class="fa fa-clipboard-list"></i> Orden de Compra</a></li>
+                                <li><a href="Facturacion_Compra.aspx"><i class="ion-document-text"></i> Facturación Compra</a></li>
+                            </ul>
+                        </li>
+
+
 
                         <!-- ALMACÉN -->
                         <li>
                             <a href="#"><i class="fa fa-cubes"></i><span> Almacén</span></a>
                             <ul class="nav-flyout">
                                 <li><a href="Mantenimiento_Productos.aspx"><i class="ion-pricetag"></i> Registrar Producto</a></li>
-                                <li><a href="Reporte_Productos.aspx"><i class="ion-pricetag"></i> Lista Productos</a></li>
+                                <li><a href="Mantenimiento_AlmacenSucursal.aspx"><i class="ion-pricetag"></i>Almacen productos</a></li>
                                 <li><a href="Kardex.aspx"><i class="ion-ios-pulse"></i> Kardex</a></li>
-                                <li><a href="Proveedores.aspx"><i class="ion-briefcase"></i> Proveedores</a></li>
-                                <li><a href="Categorias.aspx"><i class="ion-ios-pricetags-outline"></i> Categorías</a></li>
+                                <li><a href="Guia_Remision.aspx"><i class="ion-document-text"></i>Guia de Remisión</a></li>
+                             
+                                <li><a href="Entrega.aspx"><i class="fa fa-truck"></i> Entrega</a></li>
                             </ul>
                         </li>
 
@@ -85,22 +102,33 @@
                         <li>
                             <a href="#"><i class="fa fa-cog"></i><span> Configuración</span></a>
                             <ul class="nav-flyout">
-                                <li><a href="Usuarios.aspx"><i class="ion-locked"></i> Usuarios</a></li>
-                                <li><a href="Roles.aspx"><i class="ion-person"></i> Roles</a></li>
+                                <li><a href="UsuarioEmpleado.aspx"><i class="ion-locked"></i> Usuarios</a></li>
+                                <li><a href="Libro_Reclamacion.aspx"><i class="ion-person"></i> Libro de Reclamaciones</a></li>
                                 <li><a href="CerrarSesion.aspx"><i class="ion-log-out"></i> Cerrar Sesión</a></li>
                             </ul>
                         </li>
 
                     </ul>
                 </nav>
+                <footer>
+                    <asp:label runat="server" id="TXT_Usuario" class="user-info">
+                      <i class="ion-person"></i>
+                     </asp:label>
+                </footer>
             </aside>
 
+
+          
             <!-- CONTENIDO PRINCIPAL -->
             <main id="content" runat="server" class="Content">
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
             </main>
 
+
+           
         </div>
     </form>
+
+
 </body>
-</html>
+</html>ñ 

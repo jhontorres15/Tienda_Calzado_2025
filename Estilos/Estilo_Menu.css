@@ -5,7 +5,8 @@ body, html {
     padding: 0;
     height: 100%;
     font-family: 'Open Sans', sans-serif;
-    background-color: #f5f6fa;
+    background-color: #fff; /* cOLOR DE FONDO*/
+    
 }
 
 /* ==========================
@@ -130,15 +131,18 @@ body, html {
    CONTENIDO PRINCIPAL
 ========================== */
 .content {
-    margin-left: 260px;
+    margin-left: 0 !important;
     padding: 25px;
-    background-color: #f4f4f4;
+    background-color: #34495e !important; /* COLOR DE FONFO: ANTERIOR  #f4f4f4*/
     min-height: 100vh;
     position: relative;
     z-index: 1; /* Debajo del menú */
     transition: margin-left 0.3s ease;
 }
 
+.ContentPlaceHolder1 {
+    background-color: #34495e !important;
+}
 /* ==========================
    RESPONSIVE
 ========================== */
@@ -162,9 +166,8 @@ body, html {
         border-radius: 0 0 6px 6px;
     }
 
-    .Content {
-        margin-left: 280px; /* mismo ancho que el menú lateral */
-        padding: 30px;
-        box-sizing: border-box;
-    }
+
 }
+
+
+

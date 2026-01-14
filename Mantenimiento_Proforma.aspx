@@ -1,15 +1,26 @@
-﻿<%@ Page Title="Gestión de Proformas" Language="C#" MasterPageFile="~/Menu_Web.master" AutoEventWireup="true" CodeFile="Proforma.aspx.cs" Inherits="Proforma" ValidateRequest="false"%> 
+﻿<%@ Page Title="Gestión de Proformas" Language="C#" MasterPageFile="~/Menu_Web.master" AutoEventWireup="true" CodeFile="Mantenimiento_Proforma.aspx.cs" Inherits="Mantenimiento_Proforma" ValidateRequest="false"%> 
   
 <asp:Content ID="ContentHead" ContentPlaceHolderID="head" runat="server"> 
     <link rel="stylesheet" href="Estilos/Estilo_Proforma.css" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" /> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script type="text/javascript">
+        // Ejecuta este código después de que la página ha cargado
+        $(document).ready(function () {
+        
+        // Repite para cualquier otro TextBox de fecha/hora que necesites bloquear:
+         $('#<%= TXT_FecEmision.ClientID %>').attr('readonly', 'readonly');
+    });
+    </script>
       
     <script language="javascript" type="text/javascript"> 
         function ValidarFormulario() {
             var nroProforma = document.getElementById('<%= TXT_NroProforma.ClientID %>').value;
-            var codCliente = document.getElementById('<%= DDL_Cliente.ClientID %>').selectedIndex;
-            var codEmpleado = document.getElementById('<%= DDL_Empleado.ClientID %>').selectedIndex;
+            var codCliente = document.getElementById('<%= TXT_Cliente.ClientID %>').value;
+            var codEmpleado = document.getElementById('<%= TXT_Empleado.ClientID %>').value;
             var fecEmision = document.getElementById('<%= TXT_FecEmision.ClientID %>').value;
             var fecCaducidad = document.getElementById('<%= TXT_FecCaducidad.ClientID %>').value;
 
@@ -27,21 +38,6 @@
                 alert("La fecha de caducidad debe ser posterior a la fecha de emisión");
                 return false;
             }
-
-            return true;
-        }
-
-        function ValidarDetalle() {
-            var codSucursal = document.getElementById('<%= TXT_CodSucursal.ClientID %>').value;
-            var nroSerieProducto = document.getElementById('<%= DDL_Producto.ClientID %>').selectedIndex;
-            var cantidad = document.getElementById('<%= TXT_Cantidad.ClientID %>').value;
-            var precCotizado = document.getElementById('<%= TXT_PrecCotizado.ClientID %>').value;
-
-            if (codSucursal.trim() === "") { alert("Ingrese código de sucursal"); return false; }
-            if (codSucursal.length !== 5) { alert("El código de sucursal debe tener 5 caracteres"); return false; }
-            if (nroSerieProducto <= 0) { alert("Seleccione un producto"); return false; }
-            if (cantidad.trim() === "" || parseInt(cantidad) <= 0) { alert("Ingrese una cantidad válida"); return false; }
-            if (precCotizado.trim() === "" || parseFloat(precCotizado) <= 0) { alert("Ingrese un precio cotizado válido"); return false; }
 
             return true;
         }
@@ -97,9 +93,10 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+          <center><asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <div class="container mt-4">
         <div class="row derecha1">
-            <div class="col-md-9">
+            <div class="col-md-10">
                 <!-- Formulario de Proforma -->
                 <div class="card shadow-lg border-0 mb-4">
                     <div class="card-header bg-gradient-primary text-white">
@@ -121,22 +118,29 @@
                                            placeholder="Ej: PRO-000001"></asp:TextBox>
                             </div>
                             <div class="col-md-4">
-                                <label for="DDL_Cliente" class="form-label">
+                                
+                        <asp:UpdatePanel ID="UP_Cliente" runat="server" UpdateMode="Conditional">
+                             <ContentTemplate>
+
+                                <label for="TXT_Cliente" class="form-label">
                                     <i class="fas fa-user text-success me-1"></i>
                                     Cliente
                                 </label>
-                                <asp:DropDownList ID="DDL_Cliente" runat="server" CssClass="form-select">
-                                    <asp:ListItem Value="0">-- Seleccionar Cliente --</asp:ListItem>
-                                </asp:DropDownList>
+                               <asp:TextBox ID="TXT_Cliente" runat="server" CssClass="form-control" placeholder="Buscar Cliente"
+                                         TextMode="SingleLine" ReadOnly="true"></asp:TextBox>
+
+                                <asp:HiddenField ID="HFD_CodCliente" runat="server" Value="0" />
+                                 </ContentTemplate>
+                            </asp:UpdatePanel>
                             </div>
                             <div class="col-md-4">
-                                <label for="DDL_Empleado" class="form-label">
+                                <label for="TXT_Empleado" class="form-label">
                                     <i class="fas fa-user-tie text-info me-1"></i>
                                     Empleado
                                 </label>
-                                <asp:DropDownList ID="DDL_Empleado" runat="server" CssClass="form-select">
-                                    <asp:ListItem Value="0">-- Seleccionar Empleado --</asp:ListItem>
-                                </asp:DropDownList>
+                                <asp:TextBox ID="TXT_Empleado" runat="server" CssClass="form-control" ReadOnly="true">
+                                </asp:TextBox>
+                                  <asp:HiddenField ID="HFD_CodEmpleado" runat="server" Value="0" />
                             </div>
                         </div>
 
@@ -147,7 +151,7 @@
                                     Fecha Emisión
                                 </label>
                                 <asp:TextBox ID="TXT_FecEmision" runat="server" CssClass="form-control" 
-                                           TextMode="DateTimeLocal"></asp:TextBox>
+                                           TextMode="DateTimeLocal" ></asp:TextBox>
                             </div>
                             <div class="col-md-4">
                                 <label for="TXT_FecCaducidad" class="form-label">
@@ -157,22 +161,15 @@
                                 <asp:TextBox ID="TXT_FecCaducidad" runat="server" CssClass="form-control" 
                                            TextMode="Date"></asp:TextBox>
                             </div>
-                            <div class="col-md-4">
-                                <label for="DDL_EstadoProforma" class="form-label">
-                                    <i class="fas fa-flag text-secondary me-1"></i>
-                                    Estado
-                                </label>
-                                <asp:DropDownList ID="DDL_EstadoProforma" runat="server" CssClass="form-select">
-                                    <asp:ListItem Value="Pendiente">Pendiente</asp:ListItem>
-                                    <asp:ListItem Value="Aprobada">Aprobada</asp:ListItem>
-                                    <asp:ListItem Value="Rechazada">Rechazada</asp:ListItem>
-                                    <asp:ListItem Value="Vencida">Vencida</asp:ListItem>
-                                </asp:DropDownList>
-                            </div>
-                        </div>
+                          
 
                         <!-- Detalle de Productos -->
-                        <hr class="my-4">
+                        <hr class="my-4"/>
+
+                        <asp:UpdatePanel ID="UP_FormularioDetalle" runat="server" UpdateMode="Conditional">
+                             <ContentTemplate>
+
+
                         <h5 class="text-primary mb-3">
                             <i class="fas fa-shopping-cart me-2"></i>
                             Detalle de Productos
@@ -180,24 +177,30 @@
 
                         <div class="row mb-3">
                             <div class="col-md-3">
-                                <label for="TXT_CodSucursal" class="form-label">
+                                <label for="DDL_Sucursal" class="form-label">
                                     <i class="fas fa-store text-primary me-1"></i>
                                     Cod. Sucursal
                                 </label>
-                                <asp:TextBox ID="TXT_CodSucursal" runat="server" CssClass="form-control" 
-                                           MaxLength="5" onkeypress="return SoloLetrasNumeros(event)" 
-                                           placeholder="Ej: SUC01"></asp:TextBox>
+                                <asp:DropDownList ID="DDL_Sucursal" runat="server" CssClass="form-select" 
+                                           MaxLength="5" ></asp:DropDownList>
                             </div>
                             <div class="col-md-5">
                                 <label for="DDL_Producto" class="form-label">
                                     <i class="fas fa-box text-success me-1"></i>
                                     Producto
                                 </label>
-                                <asp:DropDownList ID="DDL_Producto" runat="server" CssClass="form-select" 
-                                                AutoPostBack="true" OnSelectedIndexChanged="DDL_Producto_SelectedIndexChanged">
-                                    <asp:ListItem Value="0">-- Seleccionar Producto --</asp:ListItem>
-                                </asp:DropDownList>
+                         
+                                <asp:TextBox ID="TXT_ProductoNombre" runat="server" CssClass="form-control" 
+                                  readonly="true"
+                                 placeholder="Buscar Producto"></asp:TextBox>
                             </div>
+
+
+                            <asp:HiddenField ID="HFD_CodProducto" runat="server" />
+                            <asp:HiddenField ID="HFD_NroSerie" runat="server" />
+                            <asp:HiddenField ID="HFD_PrecioUnitario" runat="server" />
+                            <asp:HiddenField ID="HFD_PrecioMayor" runat="server" />
+                            <asp:HiddenField ID="HFD_StockDisponible" runat="server" />
                             <div class="col-md-2">
                                 <label for="TXT_Cantidad" class="form-label">
                                     <i class="fas fa-sort-numeric-up text-info me-1"></i>
@@ -259,7 +262,9 @@
                                         OnPageIndexChanging="GV_DetalleProforma_PageIndexChanging"
                                         OnRowCommand="GV_DetalleProforma_RowCommand">
                                 <Columns>
-                                    <asp:BoundField DataField="NroSerie_Producto" HeaderText="Producto" />
+                                    <asp:BoundField DataField="NroSerie_Producto" HeaderText="Producto" visible="false" />
+                                    <asp:BoundField DataField="ProductoDescripcion" HeaderText="Producto" />
+                                    <asp:BoundField DataField="CodSucursal" HeaderText="Sucursal" visible="false"/>
                                     <asp:BoundField DataField="Cantidad" HeaderText="Cantidad" />
                                     <asp:BoundField DataField="Prec_Cotizado" HeaderText="Precio" DataFormatString="{0:C}" />
                                     <asp:BoundField DataField="Importe" HeaderText="Importe" DataFormatString="{0:C}" />
@@ -279,6 +284,7 @@
                             </asp:GridView>
                         </div>
 
+                        
                         <!-- Total de la Proforma -->
                         <div class="row mt-3">
                             <div class="col-md-8"></div>
@@ -295,34 +301,45 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>  
+
+
+                           
 
                         <!-- Botones de Acción -->
                         <div class="row mt-4">
                             <div class="col-12 text-center">
                                 <asp:Button ID="BTN_Nuevo" runat="server" Text="Nuevo" CssClass="btn btn-primary me-2" 
                                           OnClick="BTN_Nuevo_Click">
-                                  
                                 </asp:Button>
-                                <asp:Button ID="BTN_Grabar" runat="server" Text="Grabar" CssClass="btn btn-success me-2" 
-                                          OnClick="BTN_Grabar_Click" OnClientClick="return ValidarFormulario()">
-                                   
+
+                                <asp:Button ID="BTN_Grabar" runat="server" Text="Guardar" CssClass="btn btn-success me-2" 
+                                          OnClick="BTN_Grabar_Click" >
                                 </asp:Button>
-                                <asp:Button ID="BTN_Cancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary me-2" 
-                                          OnClick="BTN_Cancelar_Click">
-                                   
-                                </asp:Button>
-                                <asp:Button ID="BTN_Imprimir" runat="server" Text="Imprimir" CssClass="btn btn-info" 
-                                          OnClick="BTN_Imprimir_Click">
-                                  
-                                </asp:Button>
+
+                                <asp:Button ID="BTN_Buscar_Cliente" runat="server" Text="Buscar Cliente" CssClass="btn btn-secondary me-2" 
+                                          OnClientClick="$('#modalBuscarCliente').modal('show'); return false;" >
+                                 </asp:Button> 
+                                     <asp:Button ID="BTN_AbrirModalBuscar" runat="server" Text="Buscar Producto" CssClass="btn btn-secondary me-2" 
+                            OnClick="BTN_AbrirModalBuscar_Click" >
+                                      </asp:Button> 
+                              
+                                 
                             </div>
                         </div>
+
+
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+
+
                     </div>
                 </div>
 
+
+
                 <!-- Listado de Proformas -->
-                <div class="card shadow-lg border-0">
+                <div class="card shadow-lg border-0" >
                     <div class="card-header bg-gradient-secondary text-white">
                         <div class="row align-items-center">
                             <div class="col-md-6">
@@ -350,18 +367,38 @@
                                         OnPageIndexChanging="GV_Proformas_PageIndexChanging"
                                         OnRowCommand="GV_Proformas_RowCommand">
                                 <Columns>
-                                    <asp:BoundField DataField="NroProforma" HeaderText="Nro. Proforma" />
-                                    <asp:BoundField DataField="Cliente" HeaderText="Cliente" />
-                                    <asp:BoundField DataField="Empleado" HeaderText="Empleado" />
-                                    <asp:BoundField DataField="Fec_Emision" HeaderText="F. Emisión" DataFormatString="{0:dd/MM/yyyy}" />
-                                    <asp:BoundField DataField="Fec_Caducidad" HeaderText="F. Caducidad" DataFormatString="{0:dd/MM/yyyy}" />
-                                    <asp:BoundField DataField="Total" HeaderText="Total" DataFormatString="{0:C}" />
-                                    <asp:BoundField DataField="Estado_Proforma" HeaderText="Estado" />
+                                              
+                                   <asp:BoundField DataField="NroProforma" HeaderText="Nro.Proforma"  >
+                                    <HeaderStyle CssClass="col-codigo" />
+                                    <ItemStyle CssClass="col-codigo" />
+                                  </asp:BoundField>
+                                 <asp:BoundField DataField="Cliente" HeaderText="Cliente" />
+                   
+
+                                  <asp:BoundField DataField="Empleado" HeaderText="Empleado" />
+                                  <asp:BoundField DataField="Fec_Emision" HeaderText="F. Emisión" DataFormatString="{0:yyyy-MM-dd HH:mm}" />
+                                  <asp:BoundField DataField="Fec_Caducidad" HeaderText="F. Caducidad" DataFormatString="{0:dd/MM/yyyy}" />
+                                  <asp:BoundField DataField="Total" HeaderText="Total" DataFormatString="{0:C}" />
+                                  
+                                              <asp:TemplateField HeaderText="Estado">
+                                         <ItemTemplate>
+                                             <asp:Label ID="Estado_Proforma" runat="server" 
+                                                    Text='<%# Eval("Estado_Proforma") %>'
+                                                        CssClass='<%# ObtenerClaseEstado(Eval("Estado_Proforma").ToString()) %>'>
+                                             </asp:Label>
+               
+                                         </ItemTemplate>
+                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Acciones">
                                         <ItemTemplate>
-                                            <asp:Button ID="BTN_Editar" runat="server" Text="Editar" 
+                                             <asp:Button ID="BTN_Atender" runat="server" Text="Atender"
+                                                        CssClass="btn btn-success btn-sm me-1" CommandName="Atender"
+                                                        CommandArgument='<%# Eval("NroProforma") %>'
+                                                        Visible='<%# Eval("Estado_Proforma").ToString() == "Pendiente" %>'>
+                                                    </asp:Button>
+                                            <asp:Button ID="BTN_Imprimir" runat="server" Text="Imprimir" 
                                                       CssClass="btn btn-warning btn-sm me-1" 
-                                                      CommandName="EditarProforma" 
+                                                      CommandName="Imprimir" 
                                                       CommandArgument='<%# Eval("NroProforma") %>'>
                                                
                                             </asp:Button>
@@ -383,4 +420,192 @@
             </div>
         </div>
     </div>
+
+        </div>
+        <!-- MODAL PARA BUSCAR CLIENTE -->
+
+<div class="modal fade" id="modalBuscarCliente" tabindex="-1" aria-labelledby="modalBuscarClienteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"> <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="modalBuscarClienteLabel">
+                    <i class="fas fa-search me-2"></i> Buscar Cliente
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <asp:UpdatePanel ID="UP_ModalCliente" runat="server" UpdateMode="Conditional">
+                 <ContentTemplate>
+
+                <div class="mb-3">
+                    <label for="<%= txtBuscarNombre.ClientID %>" class="form-label fw-bold">
+                        <i class="fas fa-signature me-1 text-primary"></i> Ingrese nombre o RUC:
+                    </label>
+                    <div class="input-group">
+                        <asp:TextBox ID="txtBuscarNombre" CssClass="form-control" runat="server" placeholder="Nombre, RUC o DNI" />
+                        <asp:Button ID="BTN_Buscar_Modal" runat="server" Text="Buscar" OnClick="BTN_Buscar_Modal_Click" CssClass="btn btn-outline-primary" />
+                    </div>
+                </div>
+                <div class="table-responsive mt-4">
+                    <h6 class="mb-3 text-secondary">Resultados de Búsqueda</h6>
+                    <asp:GridView ID="GV_Clientes_Modal" runat="server" 
+                        AutoGenerateColumns="false" 
+                        CssClass="table table-striped table-hover table-bordered"
+                        OnRowCommand="GV_Clientes_Modal_RowCommand">
+                         <Columns>
+    
+                        <asp:BoundField DataField="CodCliente" HeaderText="ID" ItemStyle-Width="50px" />
+    
+                        <asp:TemplateField HeaderText="Nombre">
+                          
+                            <ItemTemplate>
+                                <asp:Label ID="LBL_NombreCompleto" runat="server" 
+                                    Text='<%# Eval("Nombre") + " " + Eval("Apellido") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+    
+                        <asp:BoundField DataField="Identificacion" HeaderText="Identificación" />
+    
+                        <asp:TemplateField HeaderText="Acción" ItemStyle-Width="100px">
+                            <ItemTemplate>
+                                <asp:Button ID="BTN_Seleccionar" runat="server" Text="Seleccionar" 
+                                    CssClass="btn btn-success btn-sm w-100" 
+                                    CommandName="SeleccionarCliente"
+                                    CommandArgument='<%# Eval("CodCliente") %>' />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+
+                    </Columns>
+                  </asp:GridView>
+                </div>
+
+
+               </ContentTemplate>
+           <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="BTN_Buscar_Modal" EventName="Click" />
+        </Triggers>
+    </asp:UpdatePanel>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i> Cerrar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+    <div class="modal fade" id="modalBuscarProducto" tabindex="-1" aria-labelledby="modalBuscarProductoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl"> <!-- modal-xl es 'Extra Grande' para que entren los filtros -->
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="modalBuscarProductoLabel">
+                    <i class="fas fa-search-plus me-2"></i> 
+                    Buscar Producto en Sucursal: 
+                    <asp:Label ID="LBL_Modal_Sucursal" runat="server" Text="[Seleccione Sucursal]" Font-Bold="true"></asp:Label>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- 
+                Este UpdatePanel es CRUCIAL. 
+                Envuelve TODO el contenido del modal para que los filtros en cascada (AutoPostBack) 
+                funcionen SIN cerrar el modal.
+            -->
+            <asp:UpdatePanel ID="UP_ModalBusqueda" runat="server" UpdateMode="Conditional">
+                <ContentTemplate>
+                    <div class="modal-body">
+                        
+                    
+                        <div class="row p-3 mb-3" style="background-color: #f8f9fa; border-radius: 8px;">
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label fw-bold">Marca:</label>
+                                <asp:DropDownList ID="DDL_FiltroMarca" runat="server" CssClass="form-select form-select-sm" AutoPostBack="true" OnSelectedIndexChanged="DDL_FiltroMarca_Changed" />
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label fw-bold">Modelo:</label>
+                                <asp:DropDownList ID="DDL_FiltroModelo" runat="server" CssClass="form-select form-select-sm" AutoPostBack="true" OnSelectedIndexChanged="DDL_FiltroModelo_Changed" />
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label fw-bold">Talla:</label>
+                                <asp:DropDownList ID="DDL_FiltroTalla" runat="server" CssClass="form-select form-select-sm" AutoPostBack="true" OnSelectedIndexChanged="DDL_FiltroTalla_Changed" />
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label fw-bold">Color:</label>
+                                <asp:DropDownList ID="DDL_FiltroColor" runat="server" CssClass="form-select form-select-sm" AutoPostBack="true" OnSelectedIndexChanged="DDL_FiltroColor_Changed" />
+                            </div>
+                        </div>
+
+                     
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <h6 class="mb-3 text-secondary">Productos Disponibles (Stock > 0)</h6>
+                            
+                            <asp:GridView ID="GV_ProductosSucursal" runat="server"
+                                AutoGenerateColumns="False"
+                                CssClass="table table-sm table-hover table-striped"
+                                Width="100%"
+                                DataKeyNames="NroSerie_Producto, CodProducto, ProductoDescripcion, Stock_Actual, Prec_Venta_Menor, Prec_Venta_Mayor"
+                                OnRowCommand="GV_ProductosSucursal_RowCommand">
+                                <Columns>
+                                    <asp:BoundField DataField="NroSerie_Producto" HeaderText="Nro. Serie" />
+                                    <asp:BoundField DataField="ProductoDescripcion" HeaderText="Producto" />
+
+                                    <asp:BoundField DataField="Stock_Actual" HeaderText="Stock" ItemStyle-Width="80px" ItemStyle-HorizontalAlign="Center" />
+                                    <asp:BoundField DataField="Prec_Venta_Menor" HeaderText="Precio" DataFormatString="{0:C2}" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Right" />
+                                 
+                                   
+                                    <asp:TemplateField HeaderText="Acción" ItemStyle-Width="120px" ItemStyle-HorizontalAlign="Center">
+                                        <ItemTemplate>
+                                            <asp:Button ID="BTN_Modal_Seleccionar" runat="server"
+                                                Text="Seleccionar"
+                                                CssClass="btn btn-success btn-sm w-100"
+                                                CommandName="SeleccionarProducto"
+                                                CommandArgument='<%# Container.DataItemIndex %>' />
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                                <EmptyDataTemplate>
+                                    <div class="alert alert-info text-center">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        No se encontraron productos con los filtros seleccionados.
+                                    </div>
+                                </EmptyDataTemplate>
+                            </asp:GridView>
+                        </div>
+                    </div>
+                </ContentTemplate>
+                
+             
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="DDL_FiltroMarca" EventName="SelectedIndexChanged" />
+                    <asp:AsyncPostBackTrigger ControlID="DDL_FiltroModelo" EventName="SelectedIndexChanged" />
+                    <asp:AsyncPostBackTrigger ControlID="DDL_FiltroTalla" EventName="SelectedIndexChanged" />
+                    <asp:AsyncPostBackTrigger ControlID="DDL_FiltroColor" EventName="SelectedIndexChanged" />
+                </Triggers>
+            </asp:UpdatePanel>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i> Cerrar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
 </asp:Content>
+
+
+      

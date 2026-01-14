@@ -1,0 +1,62 @@
+﻿/* Mantener espacio para menú lateral */
+.facturacion-container {
+    margin-left: 3em;
+    padding: 1rem 1.5rem;
+    width: 100%; /* que ocupe todo el ancho del contenedor padre */
+    margin-right: 0px; /* opcional para separación del borde */
+}
+
+.card {
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    border: 1px solid #ececec;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #0d6efd, #6ea8fe);
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Inputs y layout */
+.row .form-label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.form-control[readonly] {
+    background-color: #f8f9fa;
+}
+
+.totales .form-control {
+    font-weight: 700;
+}
+
+/* GridView estilizado */
+.table thead th {
+    background: #f2f5ff;
+}
+
+.table tbody tr:hover {
+    background: #f9fbff;
+}
+
+/* Botones principales */
+.btn-primary {
+    box-shadow: 0 8px 18px rgba(13,110,253,0.25);
+}
+
+.btn-success {
+    box-shadow: 0 8px 18px rgba(25,135,84,0.25);
+}
+
+.btn-outline-secondary {
+    border-color: #cbd3e3;
+}
+
+@media (max-width: 992px) {
+    .facturacion-container {
+        margin-left: 0;
+    }
+}

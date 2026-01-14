@@ -1,0 +1,113 @@
+﻿/* ✅ Estilo general */
+body {
+    font-family: Arial, Verdana;
+    background-color: #f4f6f8; /* Fondo suave */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ✅ Contenedor general del formulario */
+.Formulario_Articulo {
+    background-color: white;
+    border-radius: 10px;
+    color: #424242;
+    font-size: 12px;
+    padding: 50px;
+    margin: 20px auto;
+    width: 550px;
+    text-align: left;
+}
+
+/* ✅ Tabla centrada y desplazada a la derecha para no tapar el menú */
+.Tabla_Articulo {
+    text-align: center;
+    width: 900px;
+    height: auto;
+    margin-left: 18em; /* deja espacio al menú lateral */
+    margin-top: 40px;
+}
+
+/* ✅ Títulos */
+.Titulo_Formulario {
+    font-family: Verdana;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    color: #333333;
+    height: 80px;
+}
+
+/* ✅ Etiquetas y controles */
+.Etiqueta_Articulo {
+    font-family: "Segoe UI";
+    font-size: 14px;
+    text-align: right;
+    vertical-align: middle;
+    height: 50px;
+}
+
+.Fila {
+    text-align: left;
+    vertical-align: middle;
+}
+
+.Fila_Etiqueta {
+    font-family: "Segoe UI";
+    font-size: 12px;
+    font-weight: bold;
+    text-align: left;
+    height: 35px;
+}
+
+/* ✅ Entradas de texto */
+.Control_Text {
+    font-family: "Segoe UI";
+    border: solid 2px #ADADAD;
+    width: 400px;
+    height: 26px;
+    border-radius: 5px;
+}
+
+    .Control_Text:focus {
+        border-color: darkslategray;
+    }
+
+/* ✅ Listas desplegables */
+.Control_Lista-Desplegable {
+    font-family: "Segoe UI";
+    border: solid 2px #ADADAD;
+    width: 200px;
+    height: 26px;
+    border-radius: 5px;
+}
+
+/* ✅ Botones */
+.Boton {
+    border: none;
+    border-radius: 20px;
+    display: inline-block;
+    width: 160px;
+    height: 45px;
+    font-weight: bold;
+    color: white;
+    background-color: #0B5919;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+    .Boton:hover {
+        background-color: #0e7322;
+    }
+
+/* ✅ Centrado */
+.Center-Content {
+    text-align: center;
+    height: 50px;
+}
+
+/* ✅ Asegurar que el contenido no tape el menú */
+main.content {
+    margin-left: 18em;
+    padding: 20px;
+}

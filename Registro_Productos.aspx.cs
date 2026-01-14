@@ -315,16 +315,7 @@ public partial class Registro_Productos : System.Web.UI.Page
 
         byte[] imagenBytes = null;
 
-        if (FileUpload1.HasFile)  // FileUpload1 es tu control de subida de archivos
-        {
-            using (var fs = FileUpload1.PostedFile.InputStream)
-            {
-                using (var br = new BinaryReader(fs))
-                {
-                    imagenBytes = br.ReadBytes((int)fs.Length);
-                }
-            }
-        }
+        
 
         ParamFoto.ParameterName = "@Foto";
         ParamFoto.SqlDbType = SqlDbType.VarBinary;

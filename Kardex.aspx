@@ -7,15 +7,15 @@
     <script language="javascript" type="text/javascript"> 
         function ValidarFormulario() {
             var nroOperacion = document.getElementById('<%= TXT_NroOperacion.ClientID %>').value;
-            var codEmpleado = document.getElementById('<%= TXT_CodEmpleado.ClientID %>').value;
+            var codEmpleado = document.getElementById('<%= TXT_Empleado.ClientID %>').value;
             var tipoOperacion = document.getElementById('<%= DDL_TipoOperacion.ClientID %>').selectedIndex;
             var fecha = document.getElementById('<%= TXT_Fecha.ClientID %>').value;
-            var codSucursal = document.getElementById('<%= TXT_CodSucursal.ClientID %>').value;
-            var producto = document.getElementById('<%= TXT_NroSerieProducto.ClientID %>').value;
-            var tipoFacturacion = document.getElementById('<%= TXT_CodTipoFacturacion.ClientID %>').value;
-            var nroSerieFacturacion = document.getElementById('<%= TXT_NroSerieFacturacion.ClientID %>').value;
-            var cantidad = document.getElementById('<%= TXT_Cantidad.ClientID %>').value; 
-            var costo = document.getElementById('<%= TXT_CostoUnitario.ClientID %>').value;
+            var codSucursal = document.getElementById('<%= DDL_Sucursal.ClientID %>').selectedIndex;
+           
+            var tipoFacturacion = document.getElementById('<%= DDL_Tipo.ClientID %>').selectedIndex;
+       
+        
+          
             var observaciones = document.getElementById('<%= TXT_Observaciones.ClientID %>').value;
  
             if (nroOperacion.trim() === "") { alert("Ingrese número de operación"); return false; } 
@@ -39,15 +39,7 @@
             return true;
         }
 
-        function CalcularCostoTotal() {
-            var cantidad = document.getElementById('<%= TXT_Cantidad.ClientID %>').value;
-            var costoUnitario = document.getElementById('<%= TXT_CostoUnitario.ClientID %>').value;
-            
-            if (!isNaN(cantidad) && !isNaN(costoUnitario)) {
-                var costoTotal = parseFloat(cantidad) * parseFloat(costoUnitario);
-                document.getElementById('<%= TXT_CostoTotal.ClientID %>').value = costoTotal.toFixed(2);
-            }
-        }
+     
     </script> 
 </asp:Content> 
  
@@ -69,71 +61,88 @@
                                 <asp:TextBox ID="TXT_NroOperacion" runat="server" CssClass="form-control" />
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">Código Empleado:</label>
-                                <asp:TextBox ID="TXT_CodEmpleado" runat="server" CssClass="form-control" MaxLength="5" />
+                                <label class="form-label">Empleado:</label>
+                                <asp:TextBox ID="TXT_Empleado" runat="server" CssClass="form-control" MaxLength="5" />
+                                  <asp:HiddenField ID="HFD_CodEmpleado" runat="server" Value="0" />
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Tipo de Operación:</label>
-                                <asp:DropDownList ID="DDL_TipoOperacion" runat="server" CssClass="form-control">
-                                    <asp:ListItem Text="Seleccione..." Value="" />
-                                    <asp:ListItem Text="Entrada por Compra" Value="ENT01" />
-                                    <asp:ListItem Text="Salida por Venta" Value="SAL01" />
-                                    <asp:ListItem Text="Devolución" Value="DEV01" />
-                                    <asp:ListItem Text="Ajuste de Inventario" Value="AJU01" />
-                                </asp:DropDownList>
+                                <asp:DropDownList ID="DDL_TipoOperacion" runat="server" CssClass="form-select"> </asp:DropDownList>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-4">
                                 <label class="form-label">Fecha Operación:</label>
-                                <asp:TextBox ID="TXT_Fecha" runat="server" CssClass="form-control" TextMode="Date" />
+                                <asp:TextBox ID="TXT_Fecha" runat="server" CssClass="form-control" TextMode="Date"  />
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">Código Sucursal:</label>
-                                <asp:TextBox ID="TXT_CodSucursal" runat="server" CssClass="form-control" MaxLength="5" />
+                                <label class="form-label">Sucursal:</label>
+                                 <asp:DropDownList ID="DDL_Sucursal" runat="server" CssClass="form-select" ></asp:DropDownList>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">Nro. Serie Producto:</label>
-                                <asp:TextBox ID="TXT_NroSerieProducto" runat="server" CssClass="form-control" MaxLength="7" />
-                            </div>
+                                 <label class="form-label">Tipo Facturación:</label>
+                                  <asp:DropDownList ID="DDL_Tipo" runat="server" CssClass="form-select" ></asp:DropDownList>
+                             </div>
+                             
+
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <label class="form-label">Tipo Facturación:</label>
-                                <asp:TextBox ID="TXT_CodTipoFacturacion" runat="server" CssClass="form-control" MaxLength="3" />
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Nro. Serie Facturación:</label>
-                                <asp:TextBox ID="TXT_NroSerieFacturacion" runat="server" CssClass="form-control" MaxLength="10" />
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Costo Unitario:</label>
-                                <asp:TextBox ID="TXT_CostoUnitario" runat="server" CssClass="form-control" TextMode="Number" step="0.01" onchange="CalcularCostoTotal();" />
-                            </div>
-                        </div>
+                   
 
                         <div class="row mb-3">
-                            <div class="col-md-4">
-                                <label class="form-label">Cantidad:</label>
-                                <asp:TextBox ID="TXT_Cantidad" runat="server" CssClass="form-control" TextMode="Number" onchange="CalcularCostoTotal();" />
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Costo Total:</label>
-                                <asp:TextBox ID="TXT_CostoTotal" runat="server" CssClass="form-control" ReadOnly="true" />
-                            </div>
+                             <div class="col-md-4">
+                              <label class="form-label">Nro. Serie Facturación</label>
+                            <asp:TextBox ID="TXT_NroSerieFacturacion" runat="server" CssClass="form-control" MaxLength="10" Enabled="false" />
+                              </div>
+        
                             <div class="col-md-4">
                                 <label class="form-label">Observaciones:</label>
                                 <asp:TextBox ID="TXT_Observaciones" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" MaxLength="200" />
                             </div>
                         </div>
 
-                        <div class="text-center mt-4">
-                            <asp:Button ID="BTN_Registrar" runat="server" Text="Registrar" CssClass="btn btn-primary" OnClientClick="return ValidarFormulario();" />
-                            &nbsp;
+                         <div> 
+                            
                             <asp:Button ID="BTN_Limpiar" runat="server" Text="Limpiar" CssClass="btn btn-secondary" />
                         </div>
+                    
+                </div>
+                           <div class="card shadow-lg border-0 mb-4">
+                    <div class="card-header bg-gradient-secondary text-white d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0"><i class="fas fa-search-plus me-2"></i>Cargar desde Factura/Boleta</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row align-items-end mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Nro. Serie Facturación</label>
+                                <asp:TextBox ID="TXT_NroSerie_Cargar" runat="server" CssClass="form-control" MaxLength="10" />
+                            </div>
+                            <div class="col-md-3">
+                                <asp:Button ID="BTN_CargarFactura" runat="server" Text="Cargar Datos" CssClass="btn btn-success w-100" OnClick="BTN_CargarFactura_Click" />
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <asp:GridView ID="GV_DetalleKardex" runat="server" CssClass="table table-sm table-striped table-bordered" AutoGenerateColumns="false">
+                                <Columns>
+                                    
+                                    <asp:BoundField DataField="NroSerie_Producto" HeaderText="Producto" />
+                                    <asp:BoundField DataField="Cantidad" HeaderText="Cantidad" />
+                                    <asp:BoundField DataField="Costo_Unitario" HeaderText="Costo Unit." DataFormatString="{0:C}" />
+                                    <asp:BoundField DataField="Costo_Total" HeaderText="Costo Total" DataFormatString="{0:C}" />
+                                </Columns>
+                            </asp:GridView>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Total Costo</label>
+                                <asp:TextBox ID="TXT_TotalCosto" runat="server" CssClass="form-control" ReadOnly="true" />
+                            </div>
+                            <div class="col-md-9 d-flex align-items-end justify-content-end">
+                                <asp:Button ID="BTN_GuardarKardex" runat="server" Text="Guardar Kardex" CssClass="btn btn-success" OnClick="BTN_GuardarKardex_Click" />
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -153,7 +162,7 @@
                         <div class="col-md-3"><div class="card bg-light"><div class="card-body"><h6>Total Entradas</h6><h3><asp:Label ID="LBL_TotalEntradas" runat="server" Text="0" /></h3></div></div></div>
                         <div class="col-md-3"><div class="card bg-light"><div class="card-body"><h6>Total Salidas</h6><h3><asp:Label ID="LBL_TotalSalidas" runat="server" Text="0" /></h3></div></div></div>
                         <div class="col-md-3"><div class="card bg-light"><div class="card-body"><h6>Stock Actual</h6><h3><asp:Label ID="LBL_StockActual" runat="server" Text="0" /></h3></div></div></div>
-                        <div class="col-md-3"><div class="card bg-light"><div class="card-body"><h6>Valor Inventario</h6><h3><asp:Label ID="LBL_ValorInventario" runat="server" Text="$0.00" /></h3></div></div></div>
+                  
                     </div>
                 </div>
                 </div>
@@ -182,11 +191,11 @@
                             <asp:BoundField DataField="Nro_Operacion" HeaderText="Nro. Op." />
                             <asp:BoundField DataField="Fec_Operacion" HeaderText="Fecha" DataFormatString="{0:dd/MM/yyyy}" />
                             <asp:TemplateField HeaderText="Tipo">
-                                <ItemTemplate>
-                                    <span class='<%# Eval("CodTipo_Operacion").ToString().StartsWith("ENT") ? "entrada" : "salida" %>'>
-                                        <%# Eval("CodTipo_Operacion").ToString().StartsWith("ENT") ? "Entrada" : "Salida" %>
-                                    </span>
-                                </ItemTemplate>
+                              <ItemTemplate>
+                            <span class='<%# Eval("CodTipo_Operacion").ToString() == "TOP01" ? "entrada" : (Eval("CodTipo_Operacion").ToString() == "TOP02" ? "salida" : "devolucion") %>'>
+                                <%# Eval("CodTipo_Operacion").ToString() == "TOP01" ? "Entrada" : (Eval("CodTipo_Operacion").ToString() == "TOP02" ? "Salida" : "Devolución") %>
+                            </span>
+                        </ItemTemplate>
                             </asp:TemplateField>
                             <asp:BoundField DataField="NroSerie_Producto" HeaderText="Producto" />
                             <asp:BoundField DataField="Cantidad" HeaderText="Cantidad" />

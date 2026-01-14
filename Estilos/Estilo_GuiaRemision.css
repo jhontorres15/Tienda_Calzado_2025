@@ -1,0 +1,110 @@
+﻿/* Estilo dedicado para Guía de Remisión, alineado a Facturación/Pago */
+
+.container {
+    margin-left: 18em;
+}
+
+:root {
+    --primary-500: #0d6efd;
+    --primary-600: #0b5ed7;
+    --secondary-500: #6c757d;
+    --secondary-600: #5c636a;
+    --success-500: #198754;
+    --success-600: #157347;
+    --info-500: #0dcaf0;
+    --info-600: #31d2f2;
+}
+
+.card {
+    border: 1px solid #e9ecef;
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.card-header {
+    border-top-left-radius: 0.75rem !important;
+    border-top-right-radius: 0.75rem !important;
+}
+
+    .card-header.bg-gradient-primary {
+        background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+    }
+
+    .card-header.bg-gradient-info {
+        background: linear-gradient(135deg, var(--info-500), var(--info-600));
+    }
+
+    .card-header.bg-gradient-secondary {
+        background: linear-gradient(135deg, var(--secondary-500), var(--secondary-600));
+    }
+
+    .card-header h4, .card-header h5, .card-header h6 {
+        font-weight: 700;
+        letter-spacing: 0.3px;
+    }
+
+.form-label {
+    font-weight: 600;
+}
+
+.form-control, .form-select {
+    border-radius: 0.5rem;
+    border: 1px solid #ced4da;
+    transition: all .2s ease-in-out;
+}
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--primary-500);
+        box-shadow: 0 0 0 .2rem rgba(13,110,253,.15);
+    }
+
+/* Textareas en bloques largos */
+textarea.form-control {
+    min-height: 64px;
+}
+
+/* Botones coherentes con Facturación */
+.btn {
+    min-width: 160px;
+    transition: transform .08s ease, box-shadow .2s ease;
+}
+
+    .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(0,0,0,.12);
+    }
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success-500), var(--success-600));
+    border: none;
+}
+
+.btn-outline-secondary {
+    border-color: var(--secondary-500);
+}
+
+/* Tablas */
+.table {
+    font-size: 0.92rem;
+    border-radius: .5rem;
+    overflow: hidden;
+}
+
+    .table thead {
+        background: #f8f9fa;
+    }
+
+    .table tbody tr:hover {
+        background: #f1f3f5;
+    }
+
+.pagination {
+    margin: 0;
+}
+
+/* Responsive: evitar solapamiento del menú lateral */
+@media (max-width: 992px) {
+    .container {
+        margin-left: 0;
+    }
+}

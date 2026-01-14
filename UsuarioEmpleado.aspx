@@ -4,10 +4,12 @@
     <link rel="stylesheet" href="Estilos/Estilo_Usuario.css" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script type="text/javascript">
         function ValidarFormulario() {
-            var codEmpleado = document.getElementById('<%= DDL_CodEmpleado.ClientID %>').selectedIndex;
+            var codEmpleado = document.getElementById('<%= DDL_Empleado.ClientID %>').selectedIndex;
             var codUsuario = document.getElementById('<%= TXT_CodUsuario.ClientID %>').value;
             var password = document.getElementById('<%= TXT_Password.ClientID %>').value;
             var perfil = document.getElementById('<%= DDL_Perfil.ClientID %>').selectedIndex;
@@ -47,11 +49,11 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container mt-4">
-        <div class="row derecha1">
+        <div class="row justify-content-end">
             <div class="col-md-9">
                 <!-- Registro de Usuario de Empleado -->
                 <div class="card shadow-lg border-0 mb-4">
-                    <div class="card-header bg-gradient-primary text-white">
+                    <div class="card-header bg-primary text-white">
                         <h4 class="mb-0">
                             <i class="fas fa-id-badge me-2"></i>
                             Registro de Usuario de Empleado
@@ -64,12 +66,12 @@
                                     <i class="fas fa-user-tie text-primary me-1"></i>
                                     Empleado
                                 </label>
-                                <asp:DropDownList ID="DDL_CodEmpleado" runat="server" CssClass="form-select">
+                                <asp:DropDownList ID="DDL_Empleado" runat="server" CssClass="form-select">
                                     <asp:ListItem Value="0">-- Seleccionar Empleado --</asp:ListItem>
                                 </asp:DropDownList>
                             </div>
                             <div class="col-md-4">
-                                <label for="TXT_CodUsuario" class="form-label">
+                                <label for="TXT_Usuario" class="form-label">
                                     <i class="fas fa-user text-success me-1"></i>
                                     Usuario
                                 </label>
@@ -104,7 +106,7 @@
                                     <i class="fas fa-calendar-plus text-danger me-1"></i>
                                     Fec. Creación
                                 </label>
-                                <asp:TextBox ID="TXT_FecCreacion" runat="server" CssClass="form-control" TextMode="DateTimeLocal"></asp:TextBox>
+                                <asp:TextBox ID="TXT_FecCreacion" runat="server" CssClass="form-control" READONLY="true" TextMode="DateTimeLocal"></asp:TextBox>
                             </div>
                             <div class="col-md-4">
                                 <label for="DDL_EstadoUsuario" class="form-label">
@@ -130,9 +132,9 @@
                         <div class="row mt-4">
                             <div class="col-12 text-center">
                                 <asp:Button ID="BTN_Nuevo" runat="server" Text="Nuevo" CssClass="btn btn-primary me-2" OnClick="BTN_Nuevo_Click"></asp:Button>
-                                <asp:Button ID="BTN_Grabar" runat="server" Text="Grabar" CssClass="btn btn-success me-2" OnClick="BTN_Grabar_Click" OnClientClick="return ValidarFormulario()"></asp:Button>
+                                <asp:Button ID="BTN_Guardar" runat="server" Text="Guardar" CssClass="btn btn-success me-2" OnClick="BTN_Guardar_Click" OnClientClick="return ValidarFormulario()"></asp:Button>
                                 <asp:Button ID="BTN_Cancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary me-2" OnClick="BTN_Cancelar_Click"></asp:Button>
-                                <asp:Button ID="BTN_Imprimir" runat="server" Text="Imprimir" CssClass="btn btn-info" OnClick="BTN_Imprimir_Click"></asp:Button>
+                              
                             </div>
                         </div>
                     </div>
@@ -140,7 +142,7 @@
 
                 <!-- Listado de Usuarios -->
                 <div class="card shadow-lg border-0">
-                    <div class="card-header bg-gradient-secondary text-white">
+                    <div class="card-header bg-primary text-white">
                         <div class="row align-items-center">
                             <div class="col-md-6">
                                 <h4 class="mb-0"><i class="fas fa-list me-2"></i>Listado de Usuarios</h4>
@@ -158,14 +160,17 @@
                             <asp:GridView ID="GV_Usuarios" runat="server" CssClass="table table-striped table-hover mb-0" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" OnPageIndexChanging="GV_Usuarios_PageIndexChanging" OnRowCommand="GV_Usuarios_RowCommand">
                                 <Columns>
                                     <asp:BoundField DataField="CodEmpleado" HeaderText="Empleado" />
+                                    <asp:BoundField DataField="Nombre_Completo" HeaderText="Nombre" />
                                     <asp:BoundField DataField="CodUsuario" HeaderText="Usuario" />
                                     <asp:BoundField DataField="Perfil" HeaderText="Perfil" />
+                                    <asp:BoundField DataField="Password" HeaderText="Password" Visible="false" />
                                     <asp:BoundField DataField="Fec_Creacion" HeaderText="Fec. Creación" DataFormatString="{0:dd/MM/yyyy HH:mm}" />
                                     <asp:BoundField DataField="Estado_Usuario" HeaderText="Estado" />
                                     <asp:TemplateField HeaderText="Acciones">
                                         <ItemTemplate>
                                             <asp:Button ID="BTN_Editar" runat="server" Text="Editar" CssClass="btn btn-warning btn-sm me-1" CommandName="EditarUsuario" CommandArgument='<%# Eval("CodUsuario") %>' />
-                                            <asp:Button ID="BTN_Eliminar" runat="server" Text="Eliminar" CssClass="btn btn-danger btn-sm" CommandName="EliminarUsuario" CommandArgument='<%# Eval("CodUsuario") %>' OnClientClick="return confirm('¿Eliminar usuario?')" />
+                                            <asp:Button ID="BTN_Eliminar" runat="server" Text="Eliminar" CommandName="EliminarUsuario" CommandArgument='<%# Eval("CodUsuario") %>'  CssClass="btn btn-danger btn-eliminar"/>
+                                            <i class="fa fa-trash"></i> 
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>
@@ -177,4 +182,40 @@
             </div>
         </div>
     </div>
+
+
+    <script type="text/javascript">
+        // Esperamos a que cargue la página
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // Seleccionamos todos los botones con la clase 'btn-eliminar'
+            const botones = document.querySelectorAll('.btn-eliminar');
+
+            botones.forEach(boton => {
+                boton.addEventListener('click', function (e) {
+                    e.preventDefault(); // 1. Detenemos el envío al servidor temporalmente
+
+                    const enlaceOriginal = this.getAttribute('href'); // Guardamos la acción del servidor (__doPostBack)
+
+                    // 2. Mostramos la alerta bonita
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto! El usuario será eliminado.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',     // Rojo para borrar
+                        cancelButtonColor: '#3085d6',   // Azul para cancelar
+                        confirmButtonText: 'Sí, eliminar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        // 3. Si el usuario confirma...
+                        if (result.isConfirmed) {
+                            // Ejecutamos la acción original del botón (ir al servidor)
+                            window.location.href = enlaceOriginal;
+                        }
+                    });
+                });
+            });
+        });
+</script>
 </asp:Content>

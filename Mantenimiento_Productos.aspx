@@ -1,7 +1,13 @@
-﻿<%@ Page Title="Registro Productos" Language="C#" MasterPageFile="~/Menu_Web.master" AutoEventWireup="true" CodeFile="Mantenimiento_Productos.aspx.cs" Inherits="Mantenimiento_Productos" %>
+﻿<%@ Page Title="Registro Productos" Language="C#" MasterPageFile="~/Menu_Web.master" AutoEventWireup="true"  EnableEventValidation="false" CodeFile="Mantenimiento_Productos.aspx.cs" Inherits="Mantenimiento_Productos" %>
 
 <asp:Content ID="ContentHead" ContentPlaceHolderID="head" runat="server">
-    <link rel="stylesheet" href="Estilos/Estilo_Articulos.css" type="text/css" />
+    <link rel="stylesheet" href="Estilos/Estilo_Cliente.css" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script language="javascript" type="text/javascript">
         function ValidarFormulario() {
             var producto = document.getElementById('<%= TXT_Producto.ClientID %>').value;
@@ -17,171 +23,245 @@
             var estado = document.getElementById('<%= DDL_Estado.ClientID %>').selectedIndex;
 
             if (producto.trim() === "") {
-                alert('Ingrese Nombre del Producto'); 
+                alert('Ingrese Nombre del Producto');
                 return false;
             }
             if (descripcion.trim() === "") { alert('Ingrese Descripción del Producto'); return false; }
             if (categoria <= 0) { alert('Seleccione la Categoría'); return false; }
             if (marca <= 0) { alert('Seleccione la Marca'); return false; }
             if (modelo <= 0) { alert('Seleccione el Modelo'); return false; }
-            if (isNaN(stock) || parseInt(stock) <= 0) { alert('Ingrese un Stock válido'); return false; }
+            if (isNaN(stock) || parseInt(stock) === "") { alert('Ingrese un Stock válido'); return false; }
             if (isNaN(precioVentaMenor) || parseFloat(precioVentaMenor) <= 0) { alert('Ingrese Precio Venta Menor válido'); return false; }
             if (isNaN(precioVentaMayor) || parseFloat(precioVentaMayor) <= 0) { alert('Ingrese Precio Venta Mayor válido'); return false; }
             if (talla <= 0) { alert('Seleccione la Talla'); return false; }
             if (color <= 0) { alert('Seleccione el Color'); return false; }
-            if (genero <= 0) { alert('Seleccione el Género'); return false; }
             if (estado <= 0) { alert('Seleccione el Estado'); return false; }
         }
     </script>
-
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
-   
-    <link href="Estilos/Estilo_Menu.css" rel="stylesheet" />
-
-
-
-    
-
 </asp:Content>
 
 <asp:Content ID="ContentBody" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="app">   
-    <center><asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-    <table class="Tabla_Articulo">
-        <tr>
-            <td colspan="6" class="Titulo_Formulario">Registro de Productos</td>
-        </tr>
-        <tr>
-            <td class="Etiqueta_Articulo">Código del Producto:&nbsp;&nbsp;</td>
-            <td class="Fila">
-                <asp:Label ID="Lb_CodProducto" runat="server" Text="Label"></asp:Label>
-            </td>
-            <td class="auto-style6"></td>
-            <td class="Etiqueta_Articulo">Categoría:</td>
-            <td colspan="2" class="Fila">
-                <asp:DropDownList ID="DDL_Categoria" runat="server" CssClass="Control_Lista-Desplegable"></asp:DropDownList>
-            </td>
-        </tr>
-        <tr>
-            <td class="Etiqueta_Articulo">Nombre del Producto:&nbsp;&nbsp;&nbsp;</td>
-            <td class="Fila">
-                <asp:TextBox ID="TXT_Producto" runat="server" CssClass="Control_Text" Width="188px" Style="text-transform: uppercase;"></asp:TextBox>
-            </td>
-            <td></td>
-            <td class="Etiqueta_Articulo">Estado:</td>
-            <td class="Fila">
-                <asp:DropDownList ID="DDL_Estado" runat="server" CssClass="Control_Lista-Desplegable"></asp:DropDownList>
-            </td>
-            <td class="Fila_Boton" rowspan="9">
-                <asp:Button ID="BTN_Nuevo" runat="server" Text="Nuevo" CssClass="Boton" OnClick="BTN_Nuevo_Click" />
-                <br />
-                <br />
-                <asp:Button ID="BTN_Guardar" runat="server" Text="Guardar" CssClass="Boton" OnClick="BTN_Guardar_Click" OnClientClick="return ValidarFormulario();" />
-                <br />
-                <br />
-                <asp:Button ID="btnImprimirBarras" runat="server" Text="Imprimir BarCode" CssClass="Boton" OnClick="btnImprimirBarras_Click" />
-                <br />
-                <br />
-                <asp:Button ID="btnImprimirQR" runat="server" Text="Imprimir QR" CssClass="Boton" OnClick="btnImprimirQR_Click" />
-                <br />
-                <br />
-               
-                <asp:Button ID="BTN_Reporte" runat="server" Text="Ver Reporte" CssClass="Boton" OnClick="BTN_Reporte_Click" />
-            </td>
-        </tr>
-        <tr>
-            <td class="Etiqueta_Articulo">Descripción del Producto:</td>
-            <td class="Fila"><asp:TextBox ID="TXTDescripcion_Producto" runat="server" CssClass="Control_Text" Width="199px" Style="text-transform: uppercase;" Height="41px" TextMode="MultiLine"></asp:TextBox></td>
-            <td class="auto-style6"></td>
-            <td class="Etiqueta_Articulo">Foto:</td>
-            <td class="Etiqueta_Articulo">
-                <asp:Label ID="img_desc" runat="server"></asp:Label>
-                </td>
-        </tr>
-        <tr>
-            <td class="Etiqueta_Articulo">Marca:&nbsp;&nbsp;</td>
-            <td class="Fila">
-                <asp:UpdatePanel ID="UpdatePanelMarca" runat="server">
-                    <ContentTemplate>
-                        <asp:DropDownList ID="DDL_Marca" runat="server" AutoPostBack="true" CssClass="Control_Lista-Desplegable" OnSelectedIndexChanged="DDL_Marca_SelectedIndexChanged">
-                        </asp:DropDownList>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
-            </td>
-            <td class="auto-style2"></td>
-            <td class="auto-style1" colspan="2">
-                <asp:FileUpload ID="FileUpload1" runat="server" Width="260px" />
-                </td>
-        </tr>
-        <tr>
-            <td class="Etiqueta_Articulo">
-                Modelo:&nbsp;&nbsp;</td>
-            <td class="Fila">
-                <asp:UpdatePanel ID="UpdatePanelModelo" runat="server">
-                    <ContentTemplate>
-                        <asp:DropDownList ID="DDL_Modelo" runat="server" CssClass="Control_Lista-Desplegable">
-                        </asp:DropDownList>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
-            </td>
-            <td>
-                &nbsp;</td>
-            <td class="Fila">
-                &nbsp;</td>
-            <td rowspan="6">
-                <asp:Image ID="IMG_Calzado" runat="server" Width="150px" Height="150px" ImageUrl="~/IMG/LOGO.jpeg" />
-            </td>
-        </tr>
-        <tr>
-            <td class="Etiqueta_Articulo">
-                Talla:&nbsp;&nbsp;</td>
-            <td class="Fila">
-                <asp:DropDownList ID="DDL_Talla" runat="server" CssClass="Control_Lista-Desplegable"></asp:DropDownList>
-            </td>
-            <td>
-                &nbsp;</td>
-            <td class="Fila">
-                &nbsp;</td>
-        </tr>
-        <tr>
-            <td class="Etiqueta_Articulo">Color:</td>
-            <td class="Fila"><asp:DropDownList ID="DDL_Color" runat="server" CssClass="Control_Lista-Desplegable"></asp:DropDownList></td>
-            <td>&nbsp;</td>
-            <td class="Fila">
-                &nbsp;</td>
-        </tr>
-        <tr>
-            <td class="Etiqueta_Articulo">Precio Venta Menor:&nbsp;&nbsp;</td>
-            <td class="Fila"><asp:TextBox ID="TXT_PrecVentaMenor" placeholder="Soles" runat="server" CssClass="Control_Text" Width="80px"></asp:TextBox></td>
-            <td>&nbsp;</td>
-            <td class="Fila">&nbsp;</td>
-        </tr>
-        <tr>
-            <td class="Etiqueta_Articulo">Precio Venta Mayor:</td>
-            <td class="Fila"><asp:TextBox ID="TXT_PrecVentaMayor" placeholder="Soles" runat="server" CssClass="Control_Text" Width="80px"></asp:TextBox></td>
-            <td>&nbsp;</td>
-            <td class="Fila">&nbsp;</td>
-        </tr>
-        <tr>
-            <td class="Etiqueta_Articulo">Stock:&nbsp;&nbsp;</td>
-            <td class="Fila">
-                <asp:TextBox ID="TXT_Stock" runat="server" CssClass="Control_Text" Width="80px"></asp:TextBox>
-            </td>
-            <td>&nbsp;</td>
-            <td class="Fila">&nbsp;</td>
-        </tr>
-        <tr>
-            <td class="Etiqueta_Articulo"></td>
-            <td class="auto-style4">
-            </td>
-            <td class="auto-style2"></td>
-            <td class="Etiqueta_Articulo">&nbsp;</td>
-            <td class="auto-style2">&nbsp;</td>
-            <td class="auto-style1"></td>
-        </tr>
-        <tr>
-            <td class="Fila" colspan="6">&nbsp;</td>
-        </tr>
-        </table>
-</center> </div>
+        <center><asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+<div class="container mt-4">
+    <h1 class="text-center mb-4 text-primary">Registro de Productos</h1>
+
+    <div class="row derecha1">
+        <!-- Formulario de registro -->
+        <div class="col-md-9">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5>Datos del Producto</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label for="<%= Lb_CodProducto.ClientID %>" class="form-label">Código Producto:</label>
+                            <asp:Label ID="Lb_CodProducto" runat="server" CssClass="form-control" Style="font-weight: bold; color: #2c3e50;"></asp:Label>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="<%= TXT_Producto.ClientID %>" class="form-label">Nombre del Producto:</label>
+                            <asp:TextBox ID="TXT_Producto" runat="server" CssClass="form-control" Style="text-transform: uppercase;" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="<%= DDL_Categoria.ClientID %>" class="form-label">Categoría:</label>
+                            <asp:DropDownList ID="DDL_Categoria" runat="server" CssClass="form-select"></asp:DropDownList>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <label for="<%= TXTDescripcion_Producto.ClientID %>" class="form-label">Descripción del Producto:</label>
+                            <asp:TextBox ID="TXTDescripcion_Producto" runat="server" CssClass="form-control" Style="text-transform: uppercase;" TextMode="MultiLine" Rows="2" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="<%= DDL_Estado.ClientID %>" class="form-label">Estado:</label>
+                            <asp:DropDownList ID="DDL_Estado" runat="server" CssClass="form-select"></asp:DropDownList>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label for="<%= DDL_Marca.ClientID %>" class="form-label">Marca:</label>
+                          <asp:UpdatePanel ID="UpdatePanelMarca" runat="server">
+                                <ContentTemplate>
+                                    <asp:DropDownList 
+                                        ID="DDL_Marca" 
+                                        runat="server" 
+                                        AutoPostBack="true" 
+                                        CssClass="form-select" 
+                                     OnSelectedIndexChanged="DDL_Marca_SelectedIndexChanged">
+                                    </asp:DropDownList>
+                                </ContentTemplate>
+                               
+                            </asp:UpdatePanel>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="<%= DDL_Modelo.ClientID %>" class="form-label">Modelo:</label>
+                          <asp:UpdatePanel ID="UpdatePanelModelo" runat="server">
+                            <ContentTemplate>
+                                <asp:DropDownList ID="DDL_Modelo" runat="server"  CssClass="form-select"  >
+                                </asp:DropDownList>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="<%= DDL_Talla.ClientID %>" class="form-label">Talla:</label>
+                            <asp:DropDownList ID="DDL_Talla" runat="server" CssClass="form-select"></asp:DropDownList>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="<%= DDL_Color.ClientID %>" class="form-label">Color:</label>
+                            <asp:DropDownList ID="DDL_Color" runat="server" CssClass="form-select"></asp:DropDownList>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label for="<%= TXT_PrecVentaMenor.ClientID %>" class="form-label">Precio Venta Menor:</label>
+                            <asp:TextBox ID="TXT_PrecVentaMenor" placeholder="Soles"  runat="server" CssClass="form-control" TextMode="Number" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="<%= TXT_PrecVentaMayor.ClientID %>" class="form-label">Precio Venta Mayor:</label>
+                            <asp:TextBox ID="TXT_PrecVentaMayor" placeholder="Soles" runat="server" CssClass="form-control" TextMode="Number" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="<%= TXT_Stock.ClientID %>" class="form-label">Stock:</label>
+                            <asp:TextBox ID="TXT_Stock" runat="server" CssClass="form-control" TextMode="Number" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Foto:</label>
+                            <asp:FileUpload ID="FileUpload1" runat="server" CssClass="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Imagen Actual:</label>
+                            <asp:Image ID="IMG_Calzado" runat="server" Width="150px" Height="150px" ImageUrl="~/IMG/LOGO.jpeg" CssClass="img-thumbnail" />
+                        </div>
+                        <div class="col-md-9 d-flex align-items-end">
+                            <div class="text-center">
+                                <asp:Label ID="img_desc" runat="server" CssClass="form-text text-muted"></asp:Label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <asp:Button ID="BTN_Nuevo" runat="server" Text="Nuevo" CssClass="btn btn-primary" OnClick="BTN_Nuevo_Click"/>
+                        &nbsp;
+                        <asp:Button ID="BTN_Guardar" runat="server" Text="Guardar" CssClass="btn btn-success" OnClientClick="return ValidarFormulario();" OnClick="BTN_Guardar_Click" />
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+    <!-- Tabla de productos -->
+    <div class="row right">
+        <div class="col-md-10 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Listado de Productos</h5>
+                    <div>
+                        <asp:TextBox ID="TXT_BusquedaProducto" runat="server" CssClass="form-control form-control-sm d-inline-block" placeholder="Buscar producto..." Width="200px" />
+                        <asp:Button ID="BTN_BuscarProducto" runat="server" Text="Buscar" CssClass="btn btn-sm btn-light ms-2" />
+                        <asp:Button ID="BTN_ExportarProducto" runat="server" Text="Exportar" CssClass="btn btn-sm btn-light ms-2" />
+                    </div>
+                </div>
+                <div class="card-body">
+                  <asp:GridView ID="GV_Productos" runat="server"  AutoGenerateColumns="False"
+                    CssClass="table table-striped table-hover"
+                    OnRowCommand="GV_Productos_RowCommand" Width="100%" 
+                      DataKeyNames="CodProducto,Producto,Descripcion_Producto,Categoria,Marca,Modelo,Talla,Color,Prec_Venta_Menor,Prec_Venta_Mayor,Stock_General,Estado_Producto,Foto"
+                            EnableViewState="false"
+                      AllowPaging="true" PageSize="10"
+                      OnPageIndexChanging="GV_Productos_PageIndexChanging" >
+                    <Columns>
+
+                        <asp:BoundField DataField="CodProducto" HeaderText="Código">
+                            <HeaderStyle CssClass="Cabecera_Etiqueta" />
+                            <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" Width="80px" />
+                        </asp:BoundField>
+
+                        <asp:BoundField DataField="Producto" HeaderText="Producto">
+                            <HeaderStyle CssClass="Cabecera_Etiqueta" />
+                            <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" Width="150px" />
+                        </asp:BoundField>
+
+                        <asp:BoundField DataField="Descripcion_Producto" HeaderText="Descripción"  Visible="False">
+                            <HeaderStyle CssClass="Cabecera_Etiqueta" />
+                            <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" Width="250px" />
+                        </asp:BoundField>
+
+                        <asp:BoundField DataField="Categoria" HeaderText="Categoría"  Visible="True">
+                            <HeaderStyle CssClass="Cabecera_Etiqueta" />
+                            <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" Width="120px" />
+                        </asp:BoundField>
+
+                        <asp:BoundField DataField="Marca" HeaderText="Marca" >
+                            <HeaderStyle CssClass="Cabecera_Etiqueta" />
+                            <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" Width="80px" />
+                        </asp:BoundField>
+
+                        <asp:BoundField DataField="Modelo" HeaderText="Modelo">
+                            <HeaderStyle CssClass="Cabecera_Etiqueta" />
+                            <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" Width="90px" />
+                        </asp:BoundField>
+
+                        <asp:BoundField DataField="Talla" HeaderText="Talla">
+                            <HeaderStyle CssClass="Cabecera_Etiqueta" />
+                            <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" Width="50px" />
+                        </asp:BoundField>
+
+                        <asp:BoundField DataField="Color" HeaderText="Color">
+                            <HeaderStyle CssClass="Cabecera_Etiqueta" />
+                            <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" Width="100px" />
+                        </asp:BoundField>
+
+                        <asp:BoundField DataField="Prec_Venta_Menor" HeaderText="Prec. Venta Menor">
+                            <HeaderStyle CssClass="Cabecera_Etiqueta" />
+                            <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" Width="80px" />
+                        </asp:BoundField>
+
+                        <asp:BoundField DataField="Prec_Venta_Mayor" HeaderText="Prec. Venta Mayor">
+                            <HeaderStyle CssClass="Cabecera_Etiqueta" />
+                            <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" Width="80px" />
+                        </asp:BoundField>
+
+                        <asp:BoundField DataField="Stock_General" HeaderText="Stock">
+                            <HeaderStyle CssClass="Cabecera_Etiqueta" />
+                            <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" Width="80px" />
+                        </asp:BoundField>
+
+                        <asp:BoundField DataField="Estado_Producto" HeaderText="Estado Producto" >
+                            <HeaderStyle CssClass="Cabecera_Etiqueta" />
+                            <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" Width="100px" />
+                        </asp:BoundField>
+
+                        <asp:BoundField HeaderText="Foto" Visible="False">
+                            <HeaderStyle CssClass="Cabecera_Etiqueta" />
+                            <ItemStyle CssClass="Fila_Dato" HorizontalAlign="Center" />
+                          
+                        </asp:BoundField>
+
+                         <asp:ButtonField ButtonType="Button" CommandName="BTN_Ver" Text="Editar">
+                         <ItemStyle CssClass="btn btn-primary btn-sm text-white" Width="90px" />
+                     </asp:ButtonField>
+
+                    </Columns>
+
+                    <PagerStyle CssClass="pagination justify-content-center" />
+                </asp:GridView>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
 </asp:Content>

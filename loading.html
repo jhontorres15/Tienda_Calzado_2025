@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargando el Sistema...</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet" />
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
+
+    <style>
+        /* Reglas de la página para que el cargador cubra todo */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Evita el scroll mientras carga */
+            background-color: #fff;
+        }
+
+        /* Clase para ocultar (usada por JavaScript) */
+        .hidden {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease-out; /* Duración de la animación de salida */
+        }
+
+        /* Contenedor principal del cargador */
+        #loading-wrapper {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            /* Usamos un fondo para que cubra toda la pantalla */
+            background-color: #fff;
+            z-index: 9999;
+            transition: opacity 1s ease-out;
+        }
+
+        /* Texto "CARGANDO" (Ajustado para centrado y posición) */
+        #loading-text {
+            display: block;
+            position: absolute;
+            /* Subido un poco para centrarlo con el círculo */
+            top: 49%;
+            left: 50%;
+            color: #999;
+            width: 150px;
+            height: 40px;
+            /* Centrado horizontal (mitad de 150px) */
+            margin: -7px 0 0 -75px;
+            text-align: center;
+            font-family: 'PT Sans Narrow', sans-serif;
+            font-size: 24px;
+        }
+
+        /* Círculo Principal (Contenedor de animación) */
+        #loading-content {
+            display: block;
+            position: relative;
+            left: 50%;
+            top: 50%;
+            /* Tamaño de los círculos (250px) */
+            width: 250px;
+            height: 250px;
+            /* Centrado (mitad de 250px) */
+            margin: -125px 0 0 -125px;
+            /* Animación del círculo exterior */
+            border: 3px solid transparent;
+            border-top-color: #4D658D;
+            border-bottom-color: #4D658D;
+            border-radius: 50%;
+            animation: loader 2s linear infinite;
+            -webkit-animation: loader 2s linear infinite;
+        }
+
+            /* Círculo Intermedio (:before) */
+            #loading-content:before {
+                content: "";
+                position: absolute;
+                left: 15px;
+                right: 15px;
+                top: 15px;
+                bottom: 15px;
+                border: 3px solid transparent;
+                border-top-color: #D4CC6A;
+                border-bottom-color: #D4CC6A;
+                border-radius: 50%;
+                animation: loader 3s linear infinite;
+                -webkit-animation: loader 3s linear infinite;
+            }
+
+            /* Círculo Interior (:after) */
+            #loading-content:after {
+                content: "";
+                position: absolute;
+                left: 30px;
+                right: 30px;
+                top: 30px;
+                bottom: 30px;
+                border: 3px solid transparent;
+                border-top-color: #84417C;
+                border-bottom-color: #84417C;
+                border-radius: 50%;
+                animation: loader 1.5s linear infinite;
+                -webkit-animation: loader 1.5s linear infinite;
+            }
+
+        /* Keyframes (Rotación) */
+        @keyframes loader {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @-webkit-keyframes loader {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loading-wrapper">
+        <div id="loading-text">CARGANDO</div>
+        <div id="loading-content"></div>
+    </div>
+
+    <script>
+        // La función se ejecuta cuando el navegador termina de cargar este archivo HTML (rápido).
+        window.addEventListener('load', function() {
+            const loadingWrapper = document.getElementById('loading-wrapper');
+
+            // 🛑 TIEMPO MÍNIMO: 1.5 segundos para mostrar la animación
+            const tiempoMinimo = 1500;
+
+            // 🛑 PÁGINA SIGUIENTE 🛑
+            const paginaSiguiente = 'menu.aspx'; // <<<<<<<<<<<<<<<< PON AQUÍ LA RUTA DE TU PÁGINA PRINCIPAL
+
+            setTimeout(function() {
+                if (loadingWrapper) {
+                    // 1. Inicia el desvanecimiento (dura 1 segundo)
+                    loadingWrapper.classList.add('hidden');
+
+                    // 2. Espera a que termine la animación de 1 segundo y luego redirige
+                    setTimeout(function() {
+                        window.location.href = paginaSiguiente;
+                    }, 1000);
+                }
+            }, tiempoMinimo);
+        });
+    </script>
+</body>
+</html>

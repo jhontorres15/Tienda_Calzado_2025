@@ -21,7 +21,7 @@
 
                  <tr>
                     <td class="auto-style1">
-                        <asp:Label ID="Lb_Perfil" runat="server" Text="Label"></asp:Label>
+                        <asp:Label ID="Lb_Perfil" runat="server"></asp:Label>
                      </td>
                 </tr>
 
@@ -54,11 +54,14 @@
                         <asp:Button ID="BTN_Nuevo" runat="server" Text="Nuevo" CssClass="Boton" />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <asp:Button ID="BTN_InicioSesion" runat="server" Text="Iniciar Sesión" CssClass="Boton" OnClick="BTN_InicioSesion_Click" />
+                            <asp:HiddenField ID="HFD_CodEmpleado" runat="server" Value="0" />
+                            <asp:HiddenField ID="HFD_Nombre" runat="server" Value="0" />
                     </td>
                 </tr>
                 <tr>
                     <td class="Center-Content">
-                        <asp:Label ID="Lb_Mensaje" runat="server" Text="Label"></asp:Label>
+                        <asp:Label ID="Lb_Mensaje" runat="server"></asp:Label>
+                       
                     </td>
                 </tr>
             </table>

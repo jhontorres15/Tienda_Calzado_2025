@@ -1,12 +1,8 @@
 # 👠 Tienda de Calzado 2025
 
-Bienvenido al repositorio oficial del proyecto Tienda de Calzado 2025. Este es una aplicación web integral desarrollada para la gestión eficiente de una zapatería, abarcando desde la venta y facturación hasta el control de inventarios y gestión de proveedores.
 
-📋 Descripción
 
-Este proyecto es una solución web construida sobre ASP.NET Web Forms que permite automatizar y gestionar los procesos de negocio de una tienda de calzado. El sistema facilita la administración de ventas, compras, inventario y recursos humanos, proporcionando una interfaz amigable y reportes detallados.
 
-🚀 Características Principales
 
 *   **🛒 Gestión de Ventas:**
     *   Generación de Pedidos y Cotizaciones.
@@ -42,6 +38,7 @@ Este proyecto ha sido desarrollado utilizando un stack tecnológico robusto y es
     *   [F_Csharp] C# (.NET Framework 4.7.2)
     *   ASP.NET Web Forms
     *   **Entity Framework 6.2.0** (ORM para acceso a datos)
+    *   OWIN (Middleware para autenticación)
 
 *   **Frontend:**
     *   HTML5 & CSS3
@@ -53,13 +50,12 @@ Este proyecto ha sido desarrollado utilizando un stack tecnológico robusto y es
 
 *   **Librerías Adicionales:**
     *   `ZXing.Net`: Para generación de códigos de barras.
+    *   `Newtonsoft.Json`: Manejo de datos JSON.
 
 ## 🗄️ Base de Datos
 
 El sistema utiliza una base de datos relacional robusta. A continuación se muestra el diagrama de la base de datos:
 
-![Diagrama de Base de Datos]
-**Nota:** La carpeta `Procedimientos almacenados` contiene los scripts necesarios para la lógica de base de datos del proyecto.
 
 ## ⚙️ Instalación y Configuración
 
